@@ -9,15 +9,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.shkrr.whiskychuchu.app.rank.whisky.service.dto.CrawledWhiskyData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
 public class LotteCrawlingService implements CrawlingService {
-    List<CrawledWhiskyData> whiskyDatas;
+    Set<CrawledWhiskyData> whiskyDatas;
     private final WebDriver webDriver;
     @Value("${url.lotte}")
     private String url;
@@ -31,11 +34,13 @@ public class LotteCrawlingService implements CrawlingService {
         options.addArguments("--start-maximized");
         options.addArguments("--disable-popup-blocking");
         this.webDriver=new ChromeDriver(options);
-        whiskyDatas=new ArrayList<>();
+        whiskyDatas=new HashSet<>();
     }
     @Override
-    public List<CrawledWhiskyData> crawling(){
+    public Set<CrawledWhiskyData> crawling(){
         try {
+            Long saleRank=1L;//판매량순을 저장하기 위한 변수
+
             log.info("페이지 접속");
             webDriver.get(url);
             log.info("페이지 접속후 2초 로딩");
@@ -51,14 +56,14 @@ public class LotteCrawlingService implements CrawlingService {
                 WebElement whiskyPerPrice=siteDetail.findElement(By.className("s-product-price__unit"));
                 whiskyDatas.add(
                         CrawledWhiskyData.builder()
-                                .whiskyPrice(whiskyPrice.getText())
-                                 .whiskyName(whiskyName.getText())
-                                .whiskyPerPrice(whiskyPerPrice.getText())
+                                .whiskyName(whiskyName.getText())
+                                .whiskyPrice(Integer.parseInt(whiskyPrice.getText().replace(",","")))
+                                .whiskyPerPrice(Integer.parseInt(whiskyPerPrice.getText().split(" ")[1].substring(0,whiskyPerPrice.getText().split(" ")[1].length()-1).replace(",","")))
+                                .saleRank(saleRank++)
                                 .build()
                 );
             }
             log.info(String.valueOf("위스키 데이터 사이즈=>"+whiskyDatas.size()));//정보가 잘 담겼는지 로깅
-            log.info(whiskyDatas.get(0).getWhiskyName());//첫 위스키 데이터가 올바르게 들어왔는지 확인
         }catch (Exception e){
             e.printStackTrace();
         }finally {

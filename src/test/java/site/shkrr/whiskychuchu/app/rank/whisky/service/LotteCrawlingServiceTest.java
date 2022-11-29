@@ -1,4 +1,4 @@
-package site.shkrr.whiskychuchu.app.rank.service;
+package site.shkrr.whiskychuchu.app.rank.whisky.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
