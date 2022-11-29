@@ -1,6 +1,5 @@
-package site.shkrr.whiskychuchu.app.rank.service;
+package site.shkrr.whiskychuchu.app.rank.whisky.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.openqa.selenium.By;
@@ -10,10 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import site.shkrr.whiskychuchu.app.rank.service.dto.CrawledWhiskyData;
+import site.shkrr.whiskychuchu.app.rank.whisky.service.dto.CrawledWhiskyData;
 
-import javax.lang.model.element.Element;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

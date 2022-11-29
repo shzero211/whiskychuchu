@@ -1,4 +1,4 @@
-package site.shkrr.whiskychuchu.app.rank.service.dto;
+package site.shkrr.whiskychuchu.app.rank.whisky.service.dto;
 
 import lombok.Builder;
 import lombok.Getter;
