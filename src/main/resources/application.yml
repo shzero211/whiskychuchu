@@ -9,5 +9,10 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+        default_batch_fetch_size: 100
+        order_inserts:  true
+        order_updates:  true
+        jdbc:
+          batch_size: 100
 url:
   lotte:  https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=pc&collection_id=301&login=Y&u9=navigate&u8=LM90150163&mallId=4
