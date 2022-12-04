@@ -33,6 +33,7 @@ public class LotteCrawlingService implements CrawlingService {
         ChromeOptions options=new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--disable-popup-blocking");
+        options.addArguments("headless");
         this.webDriver=new ChromeDriver(options);
         whiskyDatas=new HashSet<>();
     }
