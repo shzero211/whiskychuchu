@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/fragmentsAndLayout/default_layout}"><!--decorate 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" id="content">
+    <div class="container my-5">
+        <table id="example" class="table table-bordered" style="width: 100%">
+            <thead>
+            <tr>
+                <th>이미지</th>
+                <th>이름</th>
+                <th>나라</th>
+                <th>재료</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="whisky : ${whiskyList}">
+                <td th:text="${whisky.imgUrl}">이미지</td>
+                <td th:text="${whisky.name}">이름</td>
+                <td th:text="${whisky.countryType}">나라</td>
+                <td th:text="${whisky.ingredientType}">재료</td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{|/admin/whisky/${whisky.id}|}">수정</a>
+                    <a class="btn btn-danger" th:href="@{|/admin/whisky/${whisky.id}|}">삭제</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>
