@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/fragmentsAndLayout/default_layout}"><!--decorate 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        //이미지 삽입시 썸네일,Label 변경해주는 function
+        function setThumbnailAndLabel(event) {
+            //50MB 이상 이미지 들어오는지 validation
+            if (event.target.files[0].size>=0) {
+                var maxSize = 1 * 1024 * 1024;
+                var fileSize = event.target.files[0].size;
+
+                if(fileSize > maxSize){
+                    alert("첨부파일 사이즈는 1MB 이내로 등록 가능합니다.");
+                    $(this).val('');
+                    return false;
+                }
+            }
+            var reader = new FileReader();
+            reader.fileName =event.target.files[0].name;//reader에 파일 이름값을 넣어줌(가장 정보찾기 어려웠음)
+
+            reader.onload = function(event) {
+            var img =  document.querySelector("img#thumbnail");
+            var label=  document.querySelector("label#savedPathLabel");
+        
+            img.setAttribute("src", event.target.result);
+            label.textContent=event.target.fileName;//textContent를 변경해줘야 글자가 바뀜
+            };
+
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        // function move_update(){
+        //             var data={
+        //                 id: $("#id").val(),
+        //                 countryType: $("#countryType").val(),
+        //                 ingredientType: $("#ingredientType").val()
+        //             };
+        //             alert('/admin/whisky/' + data.id);
+        //             $.ajax({
+        //                 type: 'PUT',
+        //                 url: '/admin/whisky/' + data.id,
+        //                 dataType: 'html',
+        //                 contentType: 'application/json; charset=utf-8',
+        //                 data: JSON.stringify(data)
+        //             }).done(function(){
+        //                 alert('업데이트 성공');
+        //             }).fail(function(){
+        //                 alert('업데이트 실패');
+        //             });
+        // }
+    </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" id="content">
+    <div class="container my-5">
+        <form class="was-validated" th:object="${whisky}" enctype="multipart/form-data" method="post">
+            <div>
+                <input type="number" id="id" th:field='*{id}' hidden>
+            </div>
+            <div class="d-flex flex-column">
+                <label for='thumbnail'>이미지</label>
+                <img th:src="|/image/${whisky.savedName}|" class="rounded mt-2" id='thumbnail' alt="..." width="300" height="300">
+            </div>
+
+            <div class="custom-file mb-2">
+                <input type="file" class="custom-file-input" id="file" name="file" onchange="setThumbnailAndLabel(event);" accept="image/gif, image/jpeg, image/png">
+                <label class="custom-file-label" for="file"id="savedPathLabel" th:text='*{savedName}' >이미지</label>
+            </div>
+
+
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" class="form-control" id="name" th:field='*{name}' readonly>
+            </div>
+            <div class="form-group">
+                <label for="price">가격</label>
+                <input type="text" class="form-control" id="price" th:field='*{price}' readonly>
+            </div>
+            <div class="form-group">
+                <label for="perPrice">100ml 당 가격</label>
+                <input type="text" class="form-control" id="perPrice" th:field='*{perPrice}' readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="countryType">나라</label>
+                <select class="custom-select" th:field="*{countryType}" id="countryType" required>
+                    <option th:value="'UNKNOWN'" th:text="UNKNOWN"></option>
+                    <option th:value="'스코틀랜드'" th:text="스코틀랜드"></option>
+                    <option th:value="'아일랜드'" th:text="아일랜드"></option>
+                    <option th:value="'미국'" th:text="미국"></option>
+                </select>
+                <div>
+                    <p th:if="${#fields.hasErrors('countryType')}" th:errors="*{countryType}" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ingredientType">재료</label>
+                <select class="custom-select" th:field="*{ingredientType}" id="ingredientType" required>
+                    <option th:value="'UNKNOWN'" th:text="UNKNOWN"></option>
+                    <option th:value="'보리'" th:text="보리"></option>
+                    <option th:value="'밀'" th:text="밀"></option>
+                    <option th:value="'호밀'" th:text="호밀"></option>
+                    <option th:value="'옥수수'" th:text="옥수수"></option>
+                </select>
+                <div class="invalid-feedback">
+                    <p th:if="${#fields.hasErrors('ingredientType')}" th:errors="*{ingredientType}" />
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" id="btn-update">수정하기</button>
+                <input type="button" value="뒤로가기" onclick="history.back(-1)">
+            </div>
+        </form>
+    </div>
+</div>
+</html>

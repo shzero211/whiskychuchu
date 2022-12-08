@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             <tr th:each="whisky : ${whiskyList}">
-                <td th:text="${whisky.imgUrl}">이미지</td>
+                <td ><img th:src="|/image/${whisky.savedName}|" class="rounded mt-2" id='thumbnail' alt="..." width="70" height="70"></td>
                 <td th:text="${whisky.name}">이름</td>
                 <td th:text="${whisky.countryType}">나라</td>
                 <td th:text="${whisky.ingredientType}">재료</td>
