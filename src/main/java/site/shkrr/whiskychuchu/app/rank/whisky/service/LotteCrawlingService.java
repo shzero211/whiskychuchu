@@ -9,10 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import site.shkrr.whiskychuchu.app.rank.whisky.service.dto.CrawledWhiskyData;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

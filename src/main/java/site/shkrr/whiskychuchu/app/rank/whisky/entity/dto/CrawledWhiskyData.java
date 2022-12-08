@@ -1,4 +1,4 @@
-package site.shkrr.whiskychuchu.app.rank.whisky.service.dto;
+package site.shkrr.whiskychuchu.app.rank.whisky.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

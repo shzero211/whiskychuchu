@@ -1,4 +1,4 @@
-package site.shkrr.whiskychuchu.app.rank.whisky.service.dto;
+package site.shkrr.whiskychuchu.app.rank.whisky.entity.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class AdminWhisky {
 
     private String name;
 
-    private String imgUrl;
+    private String savedName;
 
     private String countryType;
 
