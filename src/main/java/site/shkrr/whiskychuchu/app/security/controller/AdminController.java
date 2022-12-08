@@ -2,6 +2,9 @@ package site.shkrr.whiskychuchu.app.security.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +16,11 @@ import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetailReq;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -50,12 +57,22 @@ public class AdminController {
     return "admin/whiskyDetail";
     }
     @PostMapping("/whisky/{id}")
-    public  String adminWhiskysDetailUpdate(@Valid AdminWhiskyDetailReq req, BindingResult result, @RequestParam("file")  MultipartFile file, @PathVariable Long id , Model model){
+    public  String adminWhiskysDetailUpdate(@Valid AdminWhiskyDetailReq req, BindingResult result, @RequestParam("file")  MultipartFile file, @PathVariable Long id){
     if(result.hasErrors()){
         log.info("에러발생");
         return "admin/whisky/"+id;
     }
     whiskyService.updateWhisky(req,file);
     return "redirect:/admin/whiskys";
+    }
+
+    @DeleteMapping("/whisky/{id}")
+    @ResponseBody
+    public ResponseEntity adminWhiskyDelete(@PathVariable Long id) {
+        whiskyService.deleteAdminWhisky(id);
+
+        HashMap<String,String> body=new HashMap<>();
+        body.put("url","/admin/whiskys");
+        return new ResponseEntity<Map>(body, HttpStatus.OK);
     }
 }

@@ -67,4 +67,8 @@ public class WhiskyService {
             whiskyImgService.updateWhiskyImg(whisky,file);
         }
     }
+
+    public void deleteAdminWhisky(Long id) {
+        whiskyRepository.deleteById(id);
+    }
 }
