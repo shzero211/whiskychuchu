@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.enums.CountryType;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.enums.IngredientType;
-import site.shkrr.whiskychuchu.app.rank.whisky.service.dto.AdminWhisky;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
 
 import javax.persistence.*;
 
@@ -34,7 +34,11 @@ public class Whisky {
     private String name;
 
     @Column
-    private String imgUrl;
+    private String oriImgName;
+    @Column
+    private String savedName;
+    @Column
+    private String savedPath;
 
     @Column(length = 10,columnDefinition = "varchar(10) default 'UNKNOWN'")
     @Enumerated(EnumType.STRING)
@@ -46,7 +50,9 @@ public class Whisky {
 
     @PrePersist
     public void prePersist(){
-        imgUrl= imgUrl==null ? "empty" : imgUrl;
+        savedPath= savedPath==null ? "empty" : savedPath;
+        savedName= savedName==null ? "empty" : savedName;
+        oriImgName= oriImgName==null ? "empty" :oriImgName;
         countryType=countryType==null?CountryType.UNKNOWN:countryType;
         ingredientType= ingredientType==null?IngredientType.UNKNOWN:ingredientType;
     }
@@ -55,13 +61,46 @@ public class Whisky {
         this.perPrice=whiskyPerPrice;
         this.saleRank=saleRank;
     }
+    public void update(String countryType,String ingredientType) {
+        for(CountryType cType:CountryType.values()){
+            if(cType.toString().equals(countryType)){
+                this.countryType=cType;
+            }
+        }
+        for(IngredientType iType:IngredientType.values()){
+            if(iType.toString().equals(ingredientType)){
+                this.ingredientType=iType;
+            }
+        }
+    }
 
     public AdminWhisky toAdminWhisky() {
         return AdminWhisky.builder()
                 .id(id)
                 .name(name)
+                .savedName(savedName)
                 .countryType(countryType.toString())
                 .ingredientType(ingredientType.toString())
                 .build();
+    }
+
+    public AdminWhiskyDetail toAdminWhiskyDetail() {
+        return AdminWhiskyDetail.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .perPrice(perPrice)
+                .savedPath(savedPath)
+                .savedName(savedName)
+                .saleRank(saleRank)
+                .countryType(countryType.toString())
+                .ingredientType(ingredientType.toString())
+                .build();
+    }
+
+    public void updateImgData(String oriImgName, String savedName, String savedPath) {
+        this.oriImgName=oriImgName;
+        this.savedName=savedName;
+        this.savedPath=savedPath;
     }
 }
