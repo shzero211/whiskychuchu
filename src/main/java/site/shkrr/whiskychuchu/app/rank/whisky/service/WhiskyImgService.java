@@ -40,4 +40,8 @@ public class WhiskyImgService {
         }
     }
 
+    public void deleteWhiskyImg(Whisky whisky) {
+        File file=new File(whisky.getSavedPath());
+        file.delete();
+    }
 }

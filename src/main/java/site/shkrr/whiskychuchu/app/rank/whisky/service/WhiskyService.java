@@ -68,7 +68,10 @@ public class WhiskyService {
         }
     }
 
+    @Transactional
     public void deleteAdminWhisky(Long id) {
-        whiskyRepository.deleteById(id);
+        Whisky whisky= whiskyRepository.findById(id).orElseThrow(()->new EntityNotFoundException("삭제할 위스키 상세정보가 없습니다."));
+        whiskyImgService.deleteWhiskyImg(whisky);
+        whiskyRepository.delete(whisky);
     }
 }
