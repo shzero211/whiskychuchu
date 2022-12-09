@@ -1,8 +1,7 @@
 package site.shkrr.whiskychuchu.app.rank.whisky.service;
 
-import site.shkrr.whiskychuchu.app.rank.whisky.service.dto.CrawledWhiskyData;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
 
-import java.util.List;
 import java.util.Set;
 
 public interface CrawlingService {

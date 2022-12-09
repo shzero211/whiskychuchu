@@ -9,10 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import site.shkrr.whiskychuchu.app.rank.whisky.service.dto.CrawledWhiskyData;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +31,7 @@ public class LotteCrawlingService implements CrawlingService {
         ChromeOptions options=new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--disable-popup-blocking");
+        options.addArguments("headless");
         this.webDriver=new ChromeDriver(options);
         whiskyDatas=new HashSet<>();
     }

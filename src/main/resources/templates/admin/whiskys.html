@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/fragmentsAndLayout/default_layout}"><!--decorate 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function whisky_delete(id){
+            if(!confirm('삭제 하시겠습니까?')){return false;};
+            $.ajax({
+                type: 'DELETE',
+                url: '/admin/whisky/' + id,
+                dataType: 'json'
+            }).done(function(res){
+                location.href=res.url;
+            }).fail(function(){
+                alert('삭제 실패');
+            });
+        }
+    </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" id="content">
+    <div class="container my-5">
+        <table id="example" class="table table-bordered" style="width: 100%">
+            <thead>
+            <tr>
+                <th>이미지</th>
+                <th>이름</th>
+                <th>나라</th>
+                <th>재료</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="whisky : ${whiskyList}">
+                <td ><img th:src="|/image/${whisky.savedName}|" class="rounded mt-2" id='thumbnail' alt="..." width="70" height="70"></td>
+                <td th:text="${whisky.name}">이름</td>
+                <td th:text="${whisky.countryType}">나라</td>
+                <td th:text="${whisky.ingredientType}">재료</td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{|/admin/whisky/${whisky.id}|}">수정</a>
+                    <a class="btn btn-danger" th:wid="${whisky.id}" onclick="whisky_delete(this.getAttribute('wid'))">삭제</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>
