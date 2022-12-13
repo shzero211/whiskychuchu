@@ -12,6 +12,7 @@ import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
+import site.shkrr.whiskychuchu.app.rank.whisky.repository.dto.WhiskyMainRankDto;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -73,5 +74,9 @@ public class WhiskyService {
         Whisky whisky= whiskyRepository.findById(id).orElseThrow(()->new EntityNotFoundException("삭제할 위스키 상세정보가 없습니다."));
         whiskyImgService.deleteWhiskyImg(whisky);
         whiskyRepository.delete(whisky);
+    }
+
+    public List<WhiskyMainRankDto> getMainRankList(){
+        return whiskyRepository.getWhiskyMainRankOrderBySaleRank();
     }
 }
