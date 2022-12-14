@@ -26,4 +26,33 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                 .orderBy(whisky.saleRank.asc())
                 .fetch();
     }
+
+    @Override
+    public List<WhiskyMainRankDto> getWhiskyMainRankOrderBy(String field) {
+        if(field.equals("salerank")){
+            return queryFactory.select(Projections.constructor(WhiskyMainRankDto.class,
+                            whisky.id,
+                            whisky.price,
+                            whisky.perPrice,
+                            whisky.name,
+                            whisky.savedName
+                    ))
+                    .from(whisky)
+                    .orderBy(whisky.saleRank.asc())
+                    .fetch();
+        }
+        if(field.equals("perprice")){
+           return queryFactory.select(Projections.constructor(WhiskyMainRankDto.class,
+                            whisky.id,
+                            whisky.price,
+                            whisky.perPrice,
+                            whisky.name,
+                            whisky.savedName
+                    ))
+                    .from(whisky)
+                    .orderBy(whisky.perPrice.asc())
+                    .fetch();
+        }
+    return null;
+    }
 }

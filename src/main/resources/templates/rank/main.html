@@ -11,6 +11,22 @@
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
+   <script th:inline="javascript">
+       
+        function updateTable(obj){
+            var field=obj.getAttribute('field');
+            var id=obj.getAttribute('id');
+            $.ajax({
+                type: 'GET',
+                url: '/rank/main/sort?field=' + field,
+            }).done(function(res){
+                $('#mainTable').replaceWith(res);   //replaceWith는 지정된 엘리먼트 포함하여 내용 바꿔치기함=>tag 자체를 변경
+                $('#sort_by').html($('#'+id).text()); //html은 지정된 엘리먼트 밑에 내용만 바꿔치기힘 이둘의 차이를 잘알아야함=>tag안 내용만 바꿈
+            }).fail(function(){
+                alert('삭제 실패');
+            });
+        }
+    </script>
 </th:block>
 
 <!-- Content -->
@@ -22,9 +38,9 @@
                     <div class="title-text mt-3">
                         <h2>위스키 랭킹</h2>
                     </div>
-                    <p>
-                        판매량순
-                    </p>
+                    <span id="sort_by">
+                        마트 판매량순
+                    </span>
                 </div>
             </div>
             <!-- /.col end-->
@@ -34,34 +50,33 @@
             <div class="col-lg-12">
                 <ul class="nav custom-tab d-flex flex-row justify-content-center border text-white" id="myTab" role="tablist">
                     <li class="nav-item ">
-                        <a class="nav-link" id="home-taThursday" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">마트 판매량순</a>
+                        <a class="nav-link" id="saleRank-tab" th:field="salerank" onclick="updateTable(this);return fasle;">마트 판매량순</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">가성비순</a>
+                        <a class="nav-link" id="perPrice-tab" th:field="perprice" onclick="updateTable(this);return fasle;">가성비순</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">주인장 추천순</a>
+                        <a class="nav-link" id="recommand-tab" th:field="recommend" onclick="updateTable(this);return fasle;">주인장 추천순</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">스모키(가성비)</a>
+                        <a class="nav-link" id="smoky-tab" th:field="smoky" onclick="updateTable(this);return fasle;">스모키(가성비)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">체리(가성비)</a>
+                        <a class="nav-link" id="sherry-tab" th:field="sherry" onclick="updateTable(this);return fasle;">쉐리(가성비)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">버번(가성비)</a>
+                        <a class="nav-link" id="bourbon-tab" th:field="bourbon" onclick="updateTable(this);return fasle;">버번(가성비)</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade active show" id="home" role="tabpanel">
                         <div class="table-responsive table-responsive">
-                            <table class="table">
+                            <table class="table" id="mainTable">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-nowrap" scope="col">순위</th>
                                         <th class="text-center text-nowrap" scope="col">상품이미지</th>
                                         <th class="text-center text-nowrap" scope="col">상품정보</th>
-                                        <th class="text-center text-nowrap" scope="col">상세보기</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,146 +102,11 @@
                                                         <p th:text="|100 ml 당 가격 : ${whisky.perPrice}|"></p>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="primary-btn">
-                                                <a class="btn btn-primary" href="#">상세보기</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Speakers</th>
-                                        <th scope="col">Session</th>
-                                        <th scope="col">Venue</th>
-                                        <th scope="col">Venue</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="inner-box">
-                                        <th scope="row">
-                                            <div class="event-date">
-                                                <span>16</span>
-                                                <p>Novembar</p>
-                                            </div>
-                                        </th>
-                                        <td>
-                                            <div class="event-img">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="event-wrap">
-                                                <h3><a href="#">Toni Duggan</a></h3>
-                                                <div class="meta">
-                                                    <div class="organizers">
-                                                        <a href="#">Aslan Lingker</a>
-                                                    </div>
-                                                    <div class="categories">
-                                                        <a href="#">Inspire</a>
-                                                    </div>
-                                                    <div class="time">
-                                                        <span>05:35 AM - 08:00 AM 2h 25'</span>
-                                                    </div>
+                                                <div class="primary-btn">
+                                                    <a class="btn btn-primary" href="#">상세보기</a>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <div class="r-no">
-                                                <span>Room B3</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="primary-btn">
-                                                <a class="btn btn-primary" href="#">Read More</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="inner-box">
-                                        <th scope="row">
-                                            <div class="event-date">
-                                                <span>16</span>
-                                                <p>Novembar</p>
-                                            </div>
-                                        </th>
-                                        <td>
-                                            <div class="event-img">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="event-wrap">
-                                                <h3><a href="#">Harman Kardon</a></h3>
-                                                <div class="meta">
-                                                    <div class="organizers">
-                                                        <a href="#">Aslan Lingker</a>
-                                                    </div>
-                                                    <div class="categories">
-                                                        <a href="#">Inspire</a>
-                                                    </div>
-                                                    <div class="time">
-                                                        <span>05:35 AM - 08:00 AM 2h 25'</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="r-no">
-                                                <span>Room B3</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="primary-btn">
-                                                <a class="btn btn-primary" href="#">Read More</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="inner-box border-bottom-0">
-                                        <th scope="row">
-                                            <div class="event-date">
-                                                <span>16</span>
-                                                <p>Novembar</p>
-                                            </div>
-                                        </th>
-                                        <td>
-                                            <div class="event-img">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="event-wrap">
-                                                <h3><a href="#">Billal Hossain</a></h3>
-                                                <div class="meta">
-                                                    <div class="organizers">
-                                                        <a href="#">Aslan Lingker</a>
-                                                    </div>
-                                                    <div class="categories">
-                                                        <a href="#">Inspire</a>
-                                                    </div>
-                                                    <div class="time">
-                                                        <span>05:35 AM - 08:00 AM 2h 25'</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="r-no">
-                                                <span>Room B3</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="primary-btn">
-                                                <a class="btn btn-primary" href="#">Read More</a>
-                                            </div>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -235,7 +115,6 @@
                     </div>
                  </div>
             </div>
-
          </div>
     </div>
 </div>
