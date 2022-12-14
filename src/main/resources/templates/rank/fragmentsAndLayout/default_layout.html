@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8" />
     <title>thymeleaf layout</title>
-    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=true,initial-scale=1.0" />
     <!--bootstrap cdn css-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <!--layout css-->
-    <link rel="stylesheet" href="/css/admin_default_layout.css">
+    <link rel="stylesheet" href="/css/rank/default_layout.css">
 
     <!-- content script -->
     <th:block layout:fragment="css"></th:block>
@@ -19,14 +19,14 @@
     <div class="wrap">
         <!-- header fragment 사용 -->
         <!--header 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
-        <th:block th:replace="admin/fragmentsAndLayout/header :: headerFragment"></th:block>
+        <th:block th:replace="rank/fragmentsAndLayout/header :: headerFragment"></th:block>
 
         <!-- content fragment 사용 -->
         <th:block layout:fragment="content"></th:block>
 
         <!-- footer fragment 사용 -->
         <!--footer 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
-        <th:block th:replace="admin/fragmentsAndLayout/footer :: footerFragment"></th:block>
+        <th:block th:replace="rank/fragmentsAndLayout/footer :: footerFragment"></th:block>
     </div>
 
     <!--JS는 head 보다 body 끝 에 넣어두는 것이 화면 구성 속도 향상에 좋다-->
