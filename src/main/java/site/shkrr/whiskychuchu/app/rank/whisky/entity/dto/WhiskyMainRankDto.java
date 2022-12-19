@@ -1,4 +1,4 @@
-package site.shkrr.whiskychuchu.app.rank.whisky.repository.dto;
+package site.shkrr.whiskychuchu.app.rank.whisky.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +23,7 @@ public class WhiskyMainRankDto {
     private String name;
 
     private String savedName;
+
+    private String flavorType;
 
 }

@@ -1,10 +1,11 @@
 package site.shkrr.whiskychuchu.app.rank.whisky.repository;
 
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import site.shkrr.whiskychuchu.app.rank.whisky.repository.dto.WhiskyMainRankDto;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.WhiskyMainRankDto;
 
 import java.util.List;
 
@@ -20,7 +21,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                         whisky.price,
                         whisky.perPrice,
                         whisky.name,
-                        whisky.savedName
+                        whisky.savedName,
+                        whisky.flavorType.stringValue()
                 ))
                 .from(whisky)
                 .orderBy(whisky.saleRank.asc())
@@ -35,7 +37,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.price,
                             whisky.perPrice,
                             whisky.name,
-                            whisky.savedName
+                            whisky.savedName,
+                            whisky.flavorType.stringValue()
                     ))
                     .from(whisky)
                     .orderBy(whisky.saleRank.asc())
@@ -47,7 +50,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.price,
                             whisky.perPrice,
                             whisky.name,
-                            whisky.savedName
+                            whisky.savedName,
+                            whisky.flavorType.stringValue()
                     ))
                     .from(whisky)
                     .orderBy(whisky.perPrice.asc())

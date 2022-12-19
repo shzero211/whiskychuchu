@@ -117,6 +117,19 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="flavorType">맛 종류</label>
+                <select class="custom-select" th:field="*{flavorType}" id="flavorType" required>
+                    <option th:value="'UNKNOWN'" th:text="UNKNOWN"></option>
+                    <option th:value="'버번'" th:text="버번"></option>
+                    <option th:value="'스모키'" th:text="스모키"></option>
+                    <option th:value="'쉐리'" th:text="쉐리"></option>
+                </select>
+                <div class="invalid-feedback">
+                    <p th:if="${#fields.hasErrors('flavorType')}" th:errors="*{flavorType}" />
+                </div>
+            </div>
+
             <div>
                 <button type="submit" id="btn-update">수정하기</button>
                 <input type="button" value="뒤로가기" onclick="history.back(-1)">

@@ -63,7 +63,7 @@ public class WhiskyService {
     @Transactional
     public void updateWhisky(AdminWhiskyDetailReq req, MultipartFile file) {
         Whisky whisky= whiskyRepository.findById(req.getId()).orElseThrow(()->new EntityNotFoundException("수정할 위스키 상세정보가 없습니다."));
-        whisky.update(req.getCountryType().trim(), req.getIngredientType().trim(),req.getFlavorType());
+        whisky.update(req.getCountryType().trim(), req.getIngredientType().trim(),req.getFlavorType().trim());
         //이미지 파일을 받았다면 파일저장및 DB 정보를 수정해주는 메소드 호출
         if(!file.isEmpty()&&file.getOriginalFilename().length()!=0){
             whiskyImgService.updateWhiskyImg(whisky,file);
