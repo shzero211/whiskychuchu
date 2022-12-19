@@ -57,6 +57,48 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                     .orderBy(whisky.perPrice.asc())
                     .fetch();
         }
+        if(field.equals("smoky")){
+            return queryFactory.select(Projections.constructor(WhiskyMainRankDto.class,
+                            whisky.id,
+                            whisky.price,
+                            whisky.perPrice,
+                            whisky.name,
+                            whisky.savedName,
+                            whisky.flavorType.stringValue()
+                    ))
+                    .from(whisky)
+                    .where(whisky.flavorType.stringValue().eq("스모키"))
+                    .orderBy(whisky.perPrice.asc())
+                    .fetch();
+        }
+        if(field.equals("sherry")){
+            return queryFactory.select(Projections.constructor(WhiskyMainRankDto.class,
+                            whisky.id,
+                            whisky.price,
+                            whisky.perPrice,
+                            whisky.name,
+                            whisky.savedName,
+                            whisky.flavorType.stringValue()
+                    ))
+                    .from(whisky)
+                    .where(whisky.flavorType.stringValue().eq("쉐리"))
+                    .orderBy(whisky.perPrice.asc())
+                    .fetch();
+        }
+        if(field.equals("bourbon")){
+            return queryFactory.select(Projections.constructor(WhiskyMainRankDto.class,
+                            whisky.id,
+                            whisky.price,
+                            whisky.perPrice,
+                            whisky.name,
+                            whisky.savedName,
+                            whisky.flavorType.stringValue()
+                    ))
+                    .from(whisky)
+                    .where(whisky.flavorType.stringValue().eq("버번"))
+                    .orderBy(whisky.perPrice.asc())
+                    .fetch();
+        }
     return null;
     }
 }

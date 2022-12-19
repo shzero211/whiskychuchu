@@ -49,7 +49,7 @@ class WhiskyServiceTest {
         AdminWhiskyDetailReq req=AdminWhiskyDetailReq.builder()
                 .id(5L)
                 .countryType(CountryType.미국.toString())
-                .flavorType(FlavorType.BOURBON.toString())
+                .flavorType(FlavorType.버번.toString())
                 .ingredientType(IngredientType.밀.toString())
                 .build();
         whiskyService.updateWhisky(req,file);
