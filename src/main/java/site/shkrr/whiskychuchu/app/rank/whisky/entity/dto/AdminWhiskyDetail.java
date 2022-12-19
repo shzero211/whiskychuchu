@@ -27,4 +27,6 @@ public class AdminWhiskyDetail {
     private String countryType;
 
     private String ingredientType;
+
+    private String flavorType;
 }

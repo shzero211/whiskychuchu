@@ -42,6 +42,10 @@ public class Whisky {
 
     @Column(length = 10,columnDefinition = "varchar(10) default 'UNKNOWN'")
     @Enumerated(EnumType.STRING)
+    private FlavorType flavorType;
+
+    @Column(length = 10,columnDefinition = "varchar(10) default 'UNKNOWN'")
+    @Enumerated(EnumType.STRING)
     private CountryType countryType;
 
     @Column(length = 10,columnDefinition = "varchar(10) default 'UNKNOWN'")
@@ -55,13 +59,14 @@ public class Whisky {
         oriImgName= oriImgName==null ? "empty" :oriImgName;
         countryType=countryType==null?CountryType.UNKNOWN:countryType;
         ingredientType= ingredientType==null?IngredientType.UNKNOWN:ingredientType;
+        flavorType= flavorType==null?FlavorType.UNKNOWN:flavorType;
     }
     public void update(int whiskyPrice, int whiskyPerPrice, Long saleRank) {
         this.price=whiskyPrice;
         this.perPrice=whiskyPerPrice;
         this.saleRank=saleRank;
     }
-    public void update(String countryType,String ingredientType) {
+    public void update(String countryType,String ingredientType,String flavorType) {
         for(CountryType cType:CountryType.values()){
             if(cType.toString().equals(countryType)){
                 this.countryType=cType;
@@ -70,6 +75,12 @@ public class Whisky {
         for(IngredientType iType:IngredientType.values()){
             if(iType.toString().equals(ingredientType)){
                 this.ingredientType=iType;
+            }
+        }
+
+        for(FlavorType fType:FlavorType.values()){
+            if(fType.toString().equals(flavorType)){
+                this.flavorType=fType;
             }
         }
     }
@@ -81,6 +92,7 @@ public class Whisky {
                 .savedName(savedName)
                 .countryType(countryType.toString())
                 .ingredientType(ingredientType.toString())
+                .flavorType(flavorType.toString())
                 .build();
     }
 
@@ -95,6 +107,7 @@ public class Whisky {
                 .saleRank(saleRank)
                 .countryType(countryType.toString())
                 .ingredientType(ingredientType.toString())
+                .flavorType(flavorType.toString())
                 .build();
     }
 

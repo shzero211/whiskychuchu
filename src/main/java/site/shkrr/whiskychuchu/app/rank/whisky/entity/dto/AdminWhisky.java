@@ -22,4 +22,6 @@ public class AdminWhisky {
 
     private String  ingredientType;
 
+    private String  flavorType;
+
 }
