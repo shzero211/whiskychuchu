@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.enums.CountryType;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.enums.FlavorType;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.enums.IngredientType;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
+import site.shkrr.whiskychuchu.app.rank.whiskycharacter.entity.WhiskyCharacter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Entity
@@ -52,6 +55,8 @@ public class Whisky {
     @Enumerated(EnumType.STRING)
     private IngredientType ingredientType;
 
+    @OneToMany(mappedBy = "whisky")
+    private List<WhiskyCharacter> whiskyCharacterList;
     @PrePersist
     public void prePersist(){
         savedPath= savedPath==null ? "empty" : savedPath;
