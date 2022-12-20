@@ -17,7 +17,7 @@ import java.util.List;
 public class WhiskyController {
     private final WhiskyService whiskyService;
 
-    @GetMapping("/main")
+    @GetMapping(value={"/**","/main"})
     public String main(Model model){
         List<WhiskyMainRankDto> mainRankDtoList=whiskyService.getMainRankList();
         model.addAttribute("whiskyMainRankList",mainRankDtoList);
