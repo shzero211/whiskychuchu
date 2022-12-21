@@ -12,11 +12,11 @@ import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.WhiskyMainRankDto;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Slf4j
@@ -31,15 +31,17 @@ public class WhiskyService {
     * 이름이 중복된것이 있으면 업데이트해주고
     * 없으면 저장 하는 메소드
     * */
+    @Transactional
     public void crawlingAndSave(){
-        Set<CrawledWhiskyData> crawledDatas=crawlingService.crawling();
+        List<CrawledWhiskyData> crawledDatas=crawlingService.crawling();
         for(CrawledWhiskyData crawledWhiskyData:crawledDatas){
             Whisky whisky =whiskyRepository.findByName(crawledWhiskyData.getWhiskyName()).orElse(null);
             if(whisky!=null){
                 whisky.update(crawledWhiskyData.getWhiskyPrice(),crawledWhiskyData.getWhiskyPerPrice(),crawledWhiskyData.getSaleRank());
-                whiskyRepository.save(whisky);
+                whiskyImgService.crawledWhiskyImgUpdate(whisky,crawledWhiskyData.getWhiskyImgUrl());
             }else{
-                whiskyRepository.save(crawledWhiskyData.toEntity());
+                Whisky savedWhisky=whiskyRepository.save(crawledWhiskyData.toEntity());
+                whiskyImgService.crawledWhiskyImgUpdate(savedWhisky,crawledWhiskyData.getWhiskyImgUrl());
             }
         }
     }
@@ -61,7 +63,7 @@ public class WhiskyService {
     @Transactional
     public void updateWhisky(AdminWhiskyDetailReq req, MultipartFile file) {
         Whisky whisky= whiskyRepository.findById(req.getId()).orElseThrow(()->new EntityNotFoundException("수정할 위스키 상세정보가 없습니다."));
-        whisky.update(req.getCountryType().trim(), req.getIngredientType().trim());
+        whisky.update(req.getCountryType().trim(), req.getIngredientType().trim(),req.getFlavorType().trim());
         //이미지 파일을 받았다면 파일저장및 DB 정보를 수정해주는 메소드 호출
         if(!file.isEmpty()&&file.getOriginalFilename().length()!=0){
             whiskyImgService.updateWhiskyImg(whisky,file);
@@ -73,5 +75,13 @@ public class WhiskyService {
         Whisky whisky= whiskyRepository.findById(id).orElseThrow(()->new EntityNotFoundException("삭제할 위스키 상세정보가 없습니다."));
         whiskyImgService.deleteWhiskyImg(whisky);
         whiskyRepository.delete(whisky);
+    }
+
+    public List<WhiskyMainRankDto> getMainRankList(){
+        return whiskyRepository.getWhiskyMainRankOrderBySaleRank();
+    }
+
+    public List<WhiskyMainRankDto> getMainRankListOrderBy(String field){
+        return whiskyRepository.getWhiskyMainRankOrderBy(field);
     }
 }

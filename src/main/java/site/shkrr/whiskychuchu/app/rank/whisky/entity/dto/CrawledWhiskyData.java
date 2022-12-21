@@ -3,12 +3,15 @@ package site.shkrr.whiskychuchu.app.rank.whisky.entity.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
 
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 public class CrawledWhiskyData {
+    private String whiskyImgUrl;
     private String whiskyName;
     private int whiskyPrice;
     private int whiskyPerPrice;

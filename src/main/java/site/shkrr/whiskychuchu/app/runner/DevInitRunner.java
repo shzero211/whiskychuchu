@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import site.shkrr.whiskychuchu.app.rank.whisky.service.WhiskyService;
 import site.shkrr.whiskychuchu.app.security.entity.User;
 import site.shkrr.whiskychuchu.app.security.entity.enums.Role;
 import site.shkrr.whiskychuchu.app.security.repository.UserRepository;
@@ -19,14 +20,17 @@ import site.shkrr.whiskychuchu.app.security.service.UserService;
 @Profile("dev")//application-dev.yml 설정에서 작동
 public class DevInitRunner {
     @Bean
-    public CommandLineRunner initData(UserService userService, PasswordEncoder passwordEncoder){
+    public CommandLineRunner initData(UserService userService, PasswordEncoder passwordEncoder, WhiskyService whiskyService){
         return args -> {//익명 클래스 방식으로 run 메소드 구현
-            User admin=User.builder()
-                    .username("admin")
-                    .password(passwordEncoder.encode("admin"))
-                    .role(Role.ADMIN)
-                    .build();
-            userService.save(admin);
+            whiskyService.crawlingAndSave();
+            if(userService.findUserByUserName("admin")==null){
+                User admin=User.builder()
+                        .username("admin")
+                        .password(passwordEncoder.encode("admin"))
+                        .role(Role.ADMIN)
+                        .build();
+                userService.save(admin);
+            }
         };
     }
 }

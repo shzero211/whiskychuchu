@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{rank/fragmentsAndLayout/default_layout}"><!--decorate 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--맨 위로 가기 버튼 CSS-->
+    <style>
+        a#MOVE_TOP_BTN {
+            position: fixed;
+            right: 2%;
+            bottom: 50px;
+            display: none;
+            z-index: 999;
+        }
+        </style>
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+   <script th:inline="javascript">
+
+        //맨 위로 가기 버튼 JS
+        $(function() {
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 500) {
+                    $('#MOVE_TOP_BTN').fadeIn();
+                } else {
+                    $('#MOVE_TOP_BTN').fadeOut();
+                }
+            });
+            
+            $("#MOVE_TOP_BTN").click(function() {
+                $('html, body').animate({
+                    scrollTop : 0
+                }, 400);
+                return false;
+            });
+        });
+       
+        function updateTable(obj){
+            var field=obj.getAttribute('field');
+            var id=obj.getAttribute('id');
+            $.ajax({
+                type: 'GET',
+                url: '/rank/main/sort?field=' + field,
+            }).done(function(res){
+                $('#mainTable').replaceWith(res);   //replaceWith는 지정된 엘리먼트 포함하여 내용 바꿔치기함=>tag 자체를 변경
+                $('#sort_by').html($('#'+id).text()); //html은 지정된 엘리먼트 밑에 내용만 바꿔치기힘 이둘의 차이를 잘알아야함=>tag안 내용만 바꿈
+            }).fail(function(){
+                alert('삭제 실패');
+            });
+        }
+    </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title text-center">
+                    <div class="title-text mt-3">
+                        <h2>위스키 추천 순위</h2>
+                    </div>
+                    <span id="sort_by">
+                        마트 판매량순
+                    </span>
+                </div>
+            </div>
+            <!-- /.col end-->
+        </div>
+         <!-- row end-->
+         <div class="row">
+            <div class="col-lg-12">
+                <!--정렬 네비게이션-->
+                <ul class="nav custom-tab d-flex flex-row justify-content-center border text-white" id="myTab" role="tablist">
+                    <li class="nav-item ">
+                        <a class="nav-link" id="saleRank-tab" th:field="salerank" onclick="updateTable(this);return fasle;">마트 판매량순</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="perPrice-tab" th:field="perprice" onclick="updateTable(this);return fasle;">가성비순</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="recommand-tab" th:field="recommend" onclick="return fasle;">주인장 추천순(개발중)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="smoky-tab" th:field="smoky" onclick="updateTable(this);return fasle;">스모키(가성비)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sherry-tab" th:field="sherry" onclick="updateTable(this);return fasle;">쉐리(가성비)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="bourbon-tab" th:field="bourbon" onclick="updateTable(this);return fasle;">버번(가성비)</a>
+                    </li>
+                </ul>
+                <!--사이트 설명 toggle-->
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                      <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                          <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <p>주인장의 사이트 설명 (누르면 닫힘)</p>
+                          </button>
+                        </h2>
+                      </div>
+                  
+                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <p>
+                                일단 저희 사이트 <strong>위스키 츄라이 츄라이</strong>에 방문해 주셔서 진심으로 감사드립니다..❤❤<br>
+                                저희 사이트는 위스키 입문자 분들을 위한 사이트로 처음 위스키를 접하는 분들이 좋은경험으로 위스키에 입문하시고자 하는 바람에 만든 사이트입니다.<br>
+                                등록 되어있는 위스키는 주변에서 구매할 수 있도록 롯데마트에서 판매 중인 위스키 정보로 나열되어있습니다!<br>
+                                또한 위스키 분류방식은 국가별분류,재료와 블렌딩에 따른 분류,증류방식에 따른 분류,숙성기간및 오크통에 따른 분류등 다양한 방법이 있지만<br>
+                                입문자에게는 맛과 향에 따른 분류가 더 느끼기 쉬워 이 분류 방식으로 추천 드리려 합니다.<br><br>
+                                <strong>✨쉽게 이렇게만 알고 계시면 즐기시기 충분합니다✨</strong><br>
+                                🍫버번 위스키 : <strong>바닐라,카라멜,초콜릿 </strong>같은 와일드하고 달콤한 향미가 있는 위스키<br>
+                                🍒쉐리 위스키: <strong>과일,건과일,과일잼</strong> 같은 상큼하고 달콤한 향미가 있는 위스키<br>
+                                💣스모키 위스키: <strong>탄맛,다크초콜릿 </strong>같은 독특한 향미가 있는 위스키<br>
+                            </p>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--위스키 리스트 테이블-->
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="home" role="tabpanel">
+                        <div class="table-responsive table-responsive">
+                            <table class="table" id="mainTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-nowrap" scope="col">순위</th>
+                                        <th class="text-center text-nowrap" scope="col">상품이미지</th>
+                                        <th class="text-center text-nowrap" scope="col">상품정보</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="inner-box" th:classappend="${idx.index+1} == 1 or ${idx.index+1} == 2 or ${idx.index+1} == 3 ?'text-light bg-info'"  th:each="whisky,idx:${whiskyMainRankList}">
+                                        <td scope="row">
+                                            <div class="event-date">
+                                                <span th:text="${idx.index+1}">idx</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="event-img">
+                                                <img class="img-fluid" th:src="|/image/${whisky.savedName}|" alt="" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="event-wrap">
+                                                <h3 th:text="${whisky.name}"></h3>
+                                                <div class="meta">
+                                                    <div class="organizers">
+                                                        <p th:text="|가격 : ${whisky.price}|"></p>
+                                                    </div>
+                                                    <div class="categories">
+                                                        <p th:text="|100 ml 당 가격 : ${whisky.perPrice}|"></p>
+                                                    </div>
+                                                    <div class="categories">
+                                                        <p th:text="|맛 종류: ${whisky.flavorType}|"></p>
+                                                    </div>
+                                                </div>
+                                                <!--위스키 레시피 검색시 ML 제거 (나중에 백엔드로 구현 변경할수 있음)-->
+                                                <div th:if="${#strings.contains(whisky.name, '(700ML)')}">
+                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(700ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
+                                                </div>
+                                                <div th:if="${#strings.contains(whisky.name, '(750ML)')}">
+                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(750ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
+                                                </div>
+                                                <div th:if="${#strings.contains(whisky.name, '(500ML)')}">
+                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(500ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
+                                                </div>
+                                                <div th:if="${#strings.contains(whisky.name, '(450ML)')}">
+                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(450ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
+                                                </div>
+                                                <div th:if="${#strings.contains(whisky.name, '(200ML)')}">
+                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(200ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+         </div>
+    </div>
+
+    <!--맨 위로 가기-->
+    <div id="top-button">
+        <a class="border p-3" id="MOVE_TOP_BTN" href="#">맨 위로 가기</a>
+    </div>
+    
+</div>
+</html>

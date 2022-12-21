@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 import site.shkrr.whiskychuchu.app.rank.whisky.service.WhiskyService;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
@@ -57,13 +58,13 @@ public class AdminController {
     return "admin/whiskyDetail";
     }
     @PostMapping("/whisky/{id}")
-    public  String adminWhiskysDetailUpdate(@Valid AdminWhiskyDetailReq req, BindingResult result, @RequestParam("file")  MultipartFile file, @PathVariable Long id){
+    public  RedirectView adminWhiskysDetailUpdate(@Valid AdminWhiskyDetailReq req, BindingResult result, @RequestParam("file")  MultipartFile file, @PathVariable Long id){
     if(result.hasErrors()){
         log.info("에러발생");
-        return "admin/whisky/"+id;
+        return new RedirectView("/admin/whisky/"+id);
     }
     whiskyService.updateWhisky(req,file);
-    return "redirect:/admin/whiskys";
+    return new RedirectView("/admin/whiskys");
     }
 
     @DeleteMapping("/whisky/{id}")

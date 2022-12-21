@@ -17,4 +17,6 @@ public class AdminWhiskyDetailReq {
     private String countryType;
     @NotBlank(message = "재료 (이)가 비어 있습니다.")
     private String ingredientType;
+    @NotBlank(message = "맛 종류 (이)가 비어 있습니다.")
+    private String flavorType;
 }
