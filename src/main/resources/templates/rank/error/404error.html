@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{rank/fragmentsAndLayout/default_layout}"><!--decorate 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        body {
+            height: 100vh;
+        }
+    </style>
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+
+    <div class="d-flex align-items-center justify-content-center vh-100">
+        <div class="text-center">
+            <h1 class="display-1 fw-bold">404</h1>
+            <p class="fs-3"> <span class="text-danger">Opps!</span> Page not found.</p>
+            <p class="lead">
+                The page you’re looking for doesn’t exist.
+            </p>
+            <a href="/rank/main" class="btn btn-primary">Go Home</a>
+        </div>
+    </div>
+
+</div>
+</html>
