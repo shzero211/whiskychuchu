@@ -50,7 +50,7 @@ public class MultipartUtil {
         if(whisky.getOriImgName().equals("empty")){
             name=String.format("%s.%s",whisky.getName(),"jpg");
         }else{
-            name=whisky.getName();
+            name=whisky.getOriImgName();
         }
 
         return new MockMultipartFile(name,name,"image/jpg",baos.toByteArray());//MultipartFile 로 변경
