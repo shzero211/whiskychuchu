@@ -98,6 +98,7 @@ public class Whisky {
                 .countryType(countryType.toString())
                 .ingredientType(ingredientType.toString())
                 .flavorType(flavorType.toString())
+                .savedPath(savedPath)
                 .build();
     }
 

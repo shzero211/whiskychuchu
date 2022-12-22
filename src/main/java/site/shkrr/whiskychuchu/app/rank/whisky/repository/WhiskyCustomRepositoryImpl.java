@@ -22,7 +22,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                         whisky.perPrice,
                         whisky.name,
                         whisky.savedName,
-                        whisky.flavorType.stringValue()
+                        whisky.flavorType.stringValue(),
+                        whisky.savedPath
                 ))
                 .from(whisky)
                 .orderBy(whisky.saleRank.asc())
@@ -38,7 +39,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.perPrice,
                             whisky.name,
                             whisky.savedName,
-                            whisky.flavorType.stringValue()
+                            whisky.flavorType.stringValue(),
+                            whisky.savedPath
                     ))
                     .from(whisky)
                     .orderBy(whisky.saleRank.asc())
@@ -51,7 +53,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.perPrice,
                             whisky.name,
                             whisky.savedName,
-                            whisky.flavorType.stringValue()
+                            whisky.flavorType.stringValue(),
+                           whisky.savedPath
                     ))
                     .from(whisky)
                     .orderBy(whisky.perPrice.asc())
@@ -64,7 +67,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.perPrice,
                             whisky.name,
                             whisky.savedName,
-                            whisky.flavorType.stringValue()
+                            whisky.flavorType.stringValue(),
+                            whisky.savedPath
                     ))
                     .from(whisky)
                     .where(whisky.flavorType.stringValue().eq("스모키"))
@@ -78,7 +82,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.perPrice,
                             whisky.name,
                             whisky.savedName,
-                            whisky.flavorType.stringValue()
+                            whisky.flavorType.stringValue(),
+                            whisky.savedPath
                     ))
                     .from(whisky)
                     .where(whisky.flavorType.stringValue().eq("쉐리"))
@@ -92,7 +97,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.perPrice,
                             whisky.name,
                             whisky.savedName,
-                            whisky.flavorType.stringValue()
+                            whisky.flavorType.stringValue(),
+                            whisky.savedPath
                     ))
                     .from(whisky)
                     .where(whisky.flavorType.stringValue().eq("버번"))
