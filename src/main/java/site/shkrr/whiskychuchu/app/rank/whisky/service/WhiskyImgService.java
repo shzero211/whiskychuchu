@@ -2,16 +2,17 @@ package site.shkrr.whiskychuchu.app.rank.whisky.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import site.shkrr.whiskychuchu.app.global.s3.AwsS3ResourceService;
+import site.shkrr.whiskychuchu.app.global.util.file.MultipartUtil;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
+import site.shkrr.whiskychuchu.app.global.util.file.dto.FileDetail;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,64 +21,41 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class WhiskyImgService {
-
-    @Value("${file.dir}") //위스키 이미지 파일 경로(yml 에서 불러옴)
-    private String fileDir;
-
-
-
+    private final AwsS3ResourceService awsS3ResourceService;
     /**
      * 위스키 이미지 정보 수정
      * */
     public void updateWhiskyImg(Whisky whisky, MultipartFile file) {
-        String oriImgName=file.getOriginalFilename();
-        String uuid= UUID.randomUUID().toString();
-        String extension=oriImgName.substring(oriImgName.lastIndexOf("."));
-        String savedName=uuid+extension;
-        String savedPath=fileDir+savedName;
-        //이전 이미지 파일 삭세
-        File oldFile=new File(whisky.getSavedPath());
-        oldFile.delete();
+        //S3파일 저장에 필요한 데이터 생성
+        FileDetail fileDetail=FileDetail.multipartOf(file);
+
+        awsS3ResourceService.update(fileDetail,whisky,file);
+
         //새 이미지 정보로 수정
-        whisky.updateImgData(oriImgName,savedName,savedPath);
-        try {
-            //새 이미지 파일 저장
-            file.transferTo(new File(savedPath));
-        } catch (IOException e) {
-            throw new RuntimeException("file 경로가 올바르지 않습니다.");
-        }
+        whisky.updateImgData(fileDetail.getOriImgName(), fileDetail.getSavedName(),fileDetail.getSavedPath());
+    }
+    /**
+     * 크롤링된 이미지의 URL 주소를 통해 이미지 가져와서 S3에 이미지 변경후 DB 정보 변경
+     * */
+    public void updateCrawledWhiskyImg(Whisky whisky,String imgUrlStr) throws IOException {
+        MultipartFile multipartFile = MultipartUtil.createMultipartFile(whisky,imgUrlStr);
+
+        updateWhiskyImg(whisky,multipartFile);
+    }
+    /**
+     *  크롤링된 이미지의 URL 주소를 통해 이미지 가져와서 S3에 이미지 저장후 DB 정보 변경
+     * */
+    public void saveCrawledWhiskyImg(Whisky whisky,String imgUrlStr) throws IOException {
+        MultipartFile multipartFile = MultipartUtil.createMultipartFile(whisky,imgUrlStr);
+        FileDetail fileDetail=FileDetail.multipartOf(multipartFile);
+
+        awsS3ResourceService.store(fileDetail,whisky,multipartFile);
+
+        //새 이미지 정보로 수정
+        whisky.updateImgData(fileDetail.getOriImgName(), fileDetail.getSavedName(),fileDetail.getSavedPath());
     }
 
     public void deleteWhiskyImg(Whisky whisky) {
-        File file=new File(whisky.getSavedPath());
-        file.delete();
-    }
-    /**
-     * 크롤링된 이미지의 URL 주소를 통해 이미지 가져와서 DB에  이미지 정보 저장및 이미지 공간에 저장
-     * */
-    public void crawledWhiskyImgUpdate(Whisky whisky,String imgUrlStr) {
-        BufferedImage image=null;
-        try {
-            image= ImageIO.read(new URL(imgUrlStr));
-        } catch (IOException e) {
-            throw new RuntimeException("URL 경로가 이상합니다.");
-        }
-        String oriImgName=whisky.getOriImgName().equals("empty")?whisky.getName()+".jpg": whisky.getOriImgName();
-        String uuid= UUID.randomUUID().toString();
-        String extension=oriImgName.substring(oriImgName.lastIndexOf("."));
-        String savedName=uuid+extension;
-        String savedPath=fileDir+savedName;
-        //이전 이미지 파일 삭세
-        File oldFile=new File(whisky.getSavedPath());
-        oldFile.delete();
-        //새 이미지 정보로 수정
-        whisky.updateImgData(oriImgName,savedName,savedPath);
-        try {
-            //새 이미지 파일 저장
-            File file=new File(savedPath);
-            ImageIO.write(image,extension.replace(".",""),file);
-        } catch (IOException e) {
-            throw new RuntimeException("file 경로가 올바르지 않습니다.");
-        }
+        awsS3ResourceService.delete(whisky.getSavedName());
     }
 }

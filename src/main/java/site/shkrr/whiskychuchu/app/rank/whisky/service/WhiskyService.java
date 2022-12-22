@@ -15,6 +15,7 @@ import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.WhiskyMainRankDto;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,16 +33,16 @@ public class WhiskyService {
     * 없으면 저장 하는 메소드
     * */
     @Transactional
-    public void crawlingAndSave(){
+    public void crawlingAndSave() throws IOException {
         List<CrawledWhiskyData> crawledDatas=crawlingService.crawling();
         for(CrawledWhiskyData crawledWhiskyData:crawledDatas){
             Whisky whisky =whiskyRepository.findByName(crawledWhiskyData.getWhiskyName()).orElse(null);
             if(whisky!=null){
                 whisky.update(crawledWhiskyData.getWhiskyPrice(),crawledWhiskyData.getWhiskyPerPrice(),crawledWhiskyData.getSaleRank());
-                whiskyImgService.crawledWhiskyImgUpdate(whisky,crawledWhiskyData.getWhiskyImgUrl());
+                whiskyImgService.updateCrawledWhiskyImg(whisky,crawledWhiskyData.getWhiskyImgUrl());
             }else{
                 Whisky savedWhisky=whiskyRepository.save(crawledWhiskyData.toEntity());
-                whiskyImgService.crawledWhiskyImgUpdate(savedWhisky,crawledWhiskyData.getWhiskyImgUrl());
+                whiskyImgService. saveCrawledWhiskyImg(savedWhisky,crawledWhiskyData.getWhiskyImgUrl());
             }
         }
     }
@@ -70,12 +71,6 @@ public class WhiskyService {
         }
     }
 
-    @Transactional
-    public void deleteAdminWhisky(Long id) {
-        Whisky whisky= whiskyRepository.findById(id).orElseThrow(()->new EntityNotFoundException("삭제할 위스키 상세정보가 없습니다."));
-        whiskyImgService.deleteWhiskyImg(whisky);
-        whiskyRepository.delete(whisky);
-    }
 
     public List<WhiskyMainRankDto> getMainRankList(){
         return whiskyRepository.getWhiskyMainRankOrderBySaleRank();
@@ -83,5 +78,12 @@ public class WhiskyService {
 
     public List<WhiskyMainRankDto> getMainRankListOrderBy(String field){
         return whiskyRepository.getWhiskyMainRankOrderBy(field);
+    }
+
+    @Transactional
+    public void deleteAdminWhisky(Long id) {
+        Whisky whisky= whiskyRepository.findById(id).orElseThrow(()->new EntityNotFoundException("삭제할 위스키 상세정보가 없습니다."));
+        whiskyImgService.deleteWhiskyImg(whisky);
+        whiskyRepository.delete(whisky);
     }
 }
