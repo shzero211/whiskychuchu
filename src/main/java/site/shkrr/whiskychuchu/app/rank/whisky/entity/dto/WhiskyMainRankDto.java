@@ -26,4 +26,6 @@ public class WhiskyMainRankDto {
 
     private String flavorType;
 
+    private String savedPath;
+
 }
