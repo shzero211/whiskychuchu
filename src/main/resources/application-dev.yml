@@ -15,4 +15,10 @@ spring:
     password: shsh
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+        EC2MetadataUtils: error
