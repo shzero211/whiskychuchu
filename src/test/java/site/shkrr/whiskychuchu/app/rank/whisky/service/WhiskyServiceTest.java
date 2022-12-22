@@ -36,7 +36,7 @@ class WhiskyServiceTest {
 
     @Test
     @Rollback(value = false)
-    public void t1(){
+    public void t1() throws IOException {
     whiskyService.crawlingAndSave();
     }
 

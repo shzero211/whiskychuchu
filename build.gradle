@@ -42,6 +42,7 @@ dependencies {
 	//스프링 시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springframework.security:spring-security-test'
 
 	// thymeleaf layout
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
@@ -56,6 +57,10 @@ dependencies {
 	//test 환경에서 로깅을 위한 롬복 사용을 위해서
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	//S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	//multipartfile 을 위한 mock
 }
 
 tasks.named('test') {

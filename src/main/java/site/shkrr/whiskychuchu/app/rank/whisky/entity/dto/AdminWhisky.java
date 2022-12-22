@@ -24,4 +24,5 @@ public class AdminWhisky {
 
     private String  flavorType;
 
+    private String savedPath;
 }
