@@ -12,7 +12,6 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
-                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/css/**","/js/**","/fonts/**","/images/**","/favicon/**").permitAll()// static 폴더의 정적 리소스들이 들어있는 디렉토리 허용(이거안하면 화면에 적용이 안됨)
                 .antMatchers("/admin/login").anonymous()
