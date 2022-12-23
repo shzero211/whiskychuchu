@@ -12,11 +12,17 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         function whisky_delete(id){
+        	var token = $("meta[name='_csrf']").attr("content");
+		    var header = $("meta[name='_csrf_header']").attr("content");
             if(!confirm('삭제 하시겠습니까?')){return false;};
             $.ajax({
                 type: 'DELETE',
                 url: '/admin/whisky/' + id,
-                dataType: 'json'
+                dataType: 'json',
+                beforeSend : function(xhr)
+            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+            }
             }).done(function(res){
                 location.href=res.url;
             }).fail(function(){

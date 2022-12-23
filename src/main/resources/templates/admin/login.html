@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,7 +11,7 @@
 <body class="text-center vsc-initialized">
     
     <main class="form-signin">
-      <form method="post" action="/admin/login">
+      <form method="post" th:action="@{/admin/login}">
         <img class="mb-4" src="/images/logo.jpeg" alt="" width="150" height="150">
         <h1 class="h3 mb-3 fw-normal">로그인</h1>
     

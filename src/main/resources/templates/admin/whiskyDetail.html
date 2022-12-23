@@ -62,7 +62,7 @@
 <!-- Content -->
 <div layout:fragment="content" id="content">
     <div class="container my-5">
-        <form class="was-validated" th:object="${whisky}" enctype="multipart/form-data" method="post">
+        <form class="was-validated" th:object="${whisky}" enctype="multipart/form-data" method="post" th:action>
             <div>
                 <input type="number" id="id" th:field='*{id}' hidden>
             </div>

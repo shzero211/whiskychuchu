@@ -42,6 +42,7 @@ dependencies {
 	//스프링 시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
+	//MockMultipartFile 생성을 위한 의존성
 	implementation 'org.springframework.security:spring-security-test'
 
 	// thymeleaf layout
@@ -60,7 +61,9 @@ dependencies {
 
 	//S3
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-	//multipartfile 을 위한 mock
+
+	//XSS 방어를 위한 의존성
+	implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.1'
 }
 
 tasks.named('test') {
