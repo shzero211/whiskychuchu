@@ -3,6 +3,7 @@ package site.shkrr.whiskychuchu.app.rank.whisky.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,7 @@ public class WhiskyService {
     * 없으면 저장 하는 메소드
     * */
     @Transactional
+    @Scheduled(cron = "0 0 5 * * 0")
     public void crawlingAndSave() throws IOException {
         List<CrawledWhiskyData> crawledDatas=crawlingService.crawling();
         for(CrawledWhiskyData crawledWhiskyData:crawledDatas){
