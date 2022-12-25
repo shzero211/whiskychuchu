@@ -4,7 +4,7 @@ spring:
       max-file-size: 1MB
       max-request-size: 1MB
   profiles:
-    active: dev
+    active: ${active}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -25,7 +25,7 @@ file:
 cloud:
   aws:
     s3:
-      bucket: ${bucket}
+      bucket: ${bucket}/${active}
     credentials:
       access-key: ${accessKey}
       secret-key: ${secretKey}
