@@ -71,11 +71,12 @@ public class LotteCrawlingService implements CrawlingService {
                 whiskyDatas.get(idx).setSaleRank(saleRank++);
             }
             log.info(String.valueOf("위스키 데이터 사이즈=>"+whiskyDatas.size()));//정보가 잘 담겼는지 로깅
+            Thread.sleep(2000);
         }catch (Exception e){
             e.printStackTrace();
         }finally {
             List<CrawledWhiskyData> deduplicationList = DeduplicationUtils.deduplication(whiskyDatas, CrawledWhiskyData::getWhiskyName);
-            webDriver.close();
+            whiskyDatas.clear();
             return deduplicationList;
         }
 

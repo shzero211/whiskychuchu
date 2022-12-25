@@ -1,10 +1,12 @@
 package site.shkrr.whiskychuchu.app.rank.whisky.service;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
 import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
 import site.shkrr.whiskychuchu.app.rank.whisky.service.CrawlingService;
@@ -17,6 +19,7 @@ import java.net.URL;
 import java.util.UUID;
 
 @SpringBootTest
+@Transactional
 class LotteCrawlingServiceTest {
     @Autowired
     private CrawlingService crawlingService;
@@ -34,6 +37,7 @@ class LotteCrawlingServiceTest {
 
     @Test
     @DisplayName("크롤링 URL 이미지 정보 제대로 추춮 되는지 확인 테스트")
+    @Disabled
     public void t2(){
         String imgUrlStr="https://contents.lotteon.com/itemimage/_v031652/LM/50/10/10/61/13/12/7_/00/1/LM5010106113127_001_1.jpg/dims/optimize/dims/resizemc/360x360";
         Whisky whisky=whiskyRepository.findById(1L).orElse(null);

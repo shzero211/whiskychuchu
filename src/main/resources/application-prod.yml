@@ -2,15 +2,13 @@ spring:
   thymeleaf:
     cache: false
     prefix: file:src/main/resources/templates/
-  devtools:
-    livereload:
-      enabled: true
-    restart:
-      enabled: true
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/whiskychuchu?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false
-    username: shsh
-    password: shsh
+    url: jdbc:mysql://${endpoint}:${port}/${db}?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${username}
+    password: ${password}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+admin:
+  username: ${adminUsername}
+  password: ${adminPassword}
