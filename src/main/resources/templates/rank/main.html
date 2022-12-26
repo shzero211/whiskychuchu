@@ -50,7 +50,7 @@
                 $('#mainTable').replaceWith(res);   //replaceWith는 지정된 엘리먼트 포함하여 내용 바꿔치기함=>tag 자체를 변경
                 $('#sort_by').html($('#'+id).text()); //html은 지정된 엘리먼트 밑에 내용만 바꿔치기힘 이둘의 차이를 잘알아야함=>tag안 내용만 바꿈
             }).fail(function(){
-                alert('삭제 실패');
+                alert('접근 실패');
             });
         }
     </script>

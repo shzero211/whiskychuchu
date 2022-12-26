@@ -17,6 +17,6 @@ public class MainController {
     public String main(Model model){
         List<WhiskyMainRankDto> mainRankDtoList=whiskyService.getMainRankList();
         model.addAttribute("whiskyMainRankList",mainRankDtoList);
-        return "/rank/main";
+        return "rank/main";
     }
 }

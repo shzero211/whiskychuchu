@@ -21,14 +21,14 @@ public class WhiskyController {
     public String main(Model model){
         List<WhiskyMainRankDto> mainRankDtoList=whiskyService.getMainRankList();
         model.addAttribute("whiskyMainRankList",mainRankDtoList);
-        return "/rank/main";
+        return "rank/main";
     }
 
     @GetMapping("/main/sort")
     public  String main(@RequestParam(defaultValue = "salerank") String field, Model model){
         List<WhiskyMainRankDto> mainRankDtoList=whiskyService.getMainRankListOrderBy(field);
         model.addAttribute("whiskyMainRankList",mainRankDtoList);
-        return "/rank/main :: #mainTable";
+        return "rank/main :: #mainTable";
     }
 
 }

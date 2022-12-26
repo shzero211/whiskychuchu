@@ -15,9 +15,9 @@ public class WhiskychuchuApplication {
 		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
 		String os=System.getProperty("os.name").toLowerCase();
 		if(os.contains("win")){
-			System.setProperty("webdriver.chrome.driver","C:/Users/KIM/IdeaProjects/whiskychuchu/src/main/resources/static/chromedriver_win32/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver","/chromedriver_win32/chromedriver.exe");
 		}else{
-			System.setProperty("webdriver.chrome.driver","src/main/resources/static/chromedriver_linux64/chromedriver");
+			System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
 		}
 	}
 	public static void main(String[] args) {
