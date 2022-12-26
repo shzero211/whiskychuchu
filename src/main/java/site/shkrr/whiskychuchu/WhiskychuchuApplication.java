@@ -17,7 +17,7 @@ public class WhiskychuchuApplication {
 		if(os.contains("win")){
 			System.setProperty("webdriver.chrome.driver","C:/Users/KIM/IdeaProjects/whiskychuchu/src/main/resources/static/chromedriver_win32/chromedriver.exe");
 		}else{
-			System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver","file:/usr/bin/chromedriver.exe");
 		}
 	}
 	public static void main(String[] args) {
