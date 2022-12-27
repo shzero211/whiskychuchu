@@ -37,6 +37,7 @@ public class WhiskyService {
     @Scheduled(cron = "0 0 5 * * 0")
     public void crawlingAndSave() throws IOException {
         List<CrawledWhiskyData> crawledDatas=crawlingService.crawling();
+        whiskyRepository.resetAllSaleRank();//모든 위스키 saleRank 0L 로 초기화
         for(CrawledWhiskyData crawledWhiskyData:crawledDatas){
             Whisky whisky =whiskyRepository.findByName(crawledWhiskyData.getWhiskyName()).orElse(null);
             if(whisky!=null){
