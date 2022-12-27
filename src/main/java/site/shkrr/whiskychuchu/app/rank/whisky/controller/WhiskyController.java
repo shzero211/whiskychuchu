@@ -19,7 +19,7 @@ public class WhiskyController {
 
     @GetMapping(value={"/**","/main"})
     public String main(Model model){
-        List<WhiskyMainRankDto> mainRankDtoList=whiskyService.getMainRankList();
+        List<WhiskyMainRankDto> mainRankDtoList=whiskyService.getMainRankListOrderBy("salerank");
         model.addAttribute("whiskyMainRankList",mainRankDtoList);
         return "rank/main";
     }

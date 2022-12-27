@@ -74,11 +74,6 @@ public class WhiskyService {
         }
     }
 
-
-    public List<WhiskyMainRankDto> getMainRankList(){
-        return whiskyRepository.getWhiskyMainRankOrderBySaleRank();
-    }
-
     public List<WhiskyMainRankDto> getMainRankListOrderBy(String field){
         return whiskyRepository.getWhiskyMainRankOrderBy(field);
     }
