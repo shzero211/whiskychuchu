@@ -53,6 +53,17 @@
                 alert('접근 실패');
             });
         }
+
+        function search(name){
+            var reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+            name=name.replace(reg,'');
+            name=name.replace('750ML','');
+            name=name.replace('700ML','');
+            name=name.replace('500ML','');
+            name=name.replace('450ML','');
+            name=name.replace('200ML','');
+            window.open("https://www.youtube.com/results?search_query="+name);
+        }
     </script>
 </th:block>
 
@@ -181,20 +192,8 @@
                                                     </div>
                                                 </div>
                                                 <!--위스키 레시피 검색시 ML 제거 (나중에 백엔드로 구현 변경할수 있음)-->
-                                                <div th:if="${#strings.contains(whisky.name, '(700ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(700ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(750ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(750ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(500ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(500ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(450ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(450ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(200ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(200ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
+                                                <div>
+                                                    <button class="btn btn-primary" th:searchName="${whisky.name}" th:onclick="search(this.getAttribute('searchName'));">위스키 레시피 검색</button>
                                                 </div>
                                             </div>
 
