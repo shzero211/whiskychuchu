@@ -24,12 +24,12 @@ public class LotteCrawlingService implements CrawlingService {
     private final WebDriver webDriver;
     @Value("${url.lotte}")
     private String url;
-    private static String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    private static String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
 
     //생성자로 webDriver 초기설정 + 위스키 정보들을 담을 whiskDatas 초기화
     public LotteCrawlingService(){
-        System.setProperty(WEB_DRIVER_ID,WEB_DRIVER_PATH);
+        //크롬 exe 경로 설정
+        //System.setProperty("webdriver.chrome.driver","/home/ec2-user/app/step1/whiskychuchu/src/main/resources/static/chromedriver_win32/chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver","C:/Users/KIM/IdeaProjects/whiskychuchu/src/main/resources/static/chromedriver_win32/chromedriver.exe");
         ChromeOptions options=new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--disable-popup-blocking");

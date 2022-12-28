@@ -8,4 +8,5 @@ public interface WhiskyCustomRepository {
     List<WhiskyMainRankDto> getWhiskyMainRankOrderBySaleRank();
 
     List<WhiskyMainRankDto> getWhiskyMainRankOrderBy(String field);
+    void resetAllSaleRank();
 }

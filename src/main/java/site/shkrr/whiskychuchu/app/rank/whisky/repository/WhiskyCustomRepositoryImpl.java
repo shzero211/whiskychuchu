@@ -26,6 +26,7 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                         whisky.savedPath
                 ))
                 .from(whisky)
+                .where(whisky.saleRank.ne(0L))
                 .orderBy(whisky.saleRank.asc())
                 .fetch();
     }
@@ -43,6 +44,7 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.savedPath
                     ))
                     .from(whisky)
+                    .where(whisky.saleRank.ne(0L))
                     .orderBy(whisky.saleRank.asc())
                     .fetch();
         }
@@ -57,6 +59,7 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                            whisky.savedPath
                     ))
                     .from(whisky)
+                   .where(whisky.saleRank.ne(0L))
                     .orderBy(whisky.perPrice.asc())
                     .fetch();
         }
@@ -106,5 +109,14 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                     .fetch();
         }
     return null;
+    }
+
+    /**
+     *
+     * 위스키 saleRank 초기화
+     * */
+    @Override
+    public void resetAllSaleRank(){
+       queryFactory.update(whisky).set(whisky.saleRank,0L).execute();
     }
 }

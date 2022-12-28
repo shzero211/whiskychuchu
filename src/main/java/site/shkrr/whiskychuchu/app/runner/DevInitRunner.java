@@ -22,8 +22,8 @@ public class DevInitRunner {
     @Bean
     public CommandLineRunner initData(UserService userService, PasswordEncoder passwordEncoder, WhiskyService whiskyService){
         return args -> {//익명 클래스 방식으로 run 메소드 구현
-            whiskyService.crawlingAndSave();
             if(userService.findUserByUserName("admin")==null){
+                whiskyService.crawlingAndSave();
                 User admin=User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
