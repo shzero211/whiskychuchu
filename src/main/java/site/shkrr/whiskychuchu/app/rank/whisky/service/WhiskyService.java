@@ -52,7 +52,7 @@ public class WhiskyService {
 
     public List<AdminWhisky> getAdminWhiskyList() {
         List<AdminWhisky> adminWhiskyList=new ArrayList<>();
-        List<Whisky> allWhiskyList=whiskyRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        List<Whisky> allWhiskyList=whiskyRepository.findAll(Sort.by(Sort.Direction.ASC, "saleRank"));
         for(Whisky whisky:allWhiskyList){
             adminWhiskyList.add(whisky.toAdminWhisky());
         }
