@@ -1,5 +1,6 @@
 package site.shkrr.whiskychuchu.app.rank.whisky.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminOwnerWhiskyReq;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetailReq;
@@ -24,10 +26,13 @@ import site.shkrr.whiskychuchu.app.rank.whisky.entity.enums.IngredientType;
 import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
+@Slf4j
 class WhiskyServiceTest {
     @Autowired
     private WhiskyService whiskyService;
@@ -54,5 +59,28 @@ class WhiskyServiceTest {
         Whisky whisky=whiskyRepository.findById(req.getId()).orElse(null);
         Assertions.assertEquals(file.getOriginalFilename(),whisky.getOriImgName());
 
+    }
+    @Test
+    @DisplayName("위스키 주인장 추천 등록시 수정메서드 테스트")
+    public void t3(){
+        Whisky tw1=whiskyRepository.save(Whisky.builder().name("테스트1").build());
+        Whisky tw2=whiskyRepository.save(Whisky.builder().name("테스트2").build());
+        log.info(tw1.getId()+" "+tw2.getId());
+        AdminOwnerWhiskyReq req1=AdminOwnerWhiskyReq.builder()
+                .id(String.valueOf(tw1.getId()))
+                .build();
+        AdminOwnerWhiskyReq req2=AdminOwnerWhiskyReq.builder()
+                .id(String.valueOf(tw2.getId()))
+                .build();
+
+        List<AdminOwnerWhiskyReq> list=new ArrayList<>();
+        list.add(req1);
+        list.add(req2);
+
+        whiskyService.updateOwnerWhisky(list);
+        Whisky w1=whiskyRepository.findById(Long.parseLong(req1.getId())).orElse(null);
+        Whisky w2=whiskyRepository.findById(Long.parseLong(req2.getId())).orElse(null);
+        assertEquals(1L,w1.getOwnerRank());
+        assertEquals(2L,w2.getOwnerRank());
     }
 }

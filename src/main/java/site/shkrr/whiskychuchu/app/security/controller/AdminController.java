@@ -11,10 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.*;
 import site.shkrr.whiskychuchu.app.rank.whisky.service.WhiskyService;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetailReq;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -75,5 +73,21 @@ public class AdminController {
         HashMap<String,String> body=new HashMap<>();
         body.put("url","/admin/whiskys");
         return new ResponseEntity<Map>(body, HttpStatus.OK);
+    }
+
+    @GetMapping("/ownerWhisky")
+    public String ownerWhisky(Model model){
+        List<AdminOwnerWhisky>adminOwnerWhiskyList=whiskyService.getAdminOwnerWhisky();
+        model.addAttribute("whiskyList",adminOwnerWhiskyList);
+        return "admin/ownerWhisky";
+    }
+    @PostMapping("/ownerWhisky")
+    @ResponseBody
+    public ResponseEntity ownerWhiskyUpdate(@RequestBody List<AdminOwnerWhiskyReq> list, Model model) throws URISyntaxException {
+            whiskyService.updateOwnerWhisky(list);
+            URI redirectUri = new URI("/admin/whiskys");
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setLocation(redirectUri);
+            return new ResponseEntity<>(httpHeaders, HttpStatus.OK);
     }
 }

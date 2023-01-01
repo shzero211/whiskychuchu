@@ -34,6 +34,9 @@ public class Whisky {
     private Long saleRank;
 
     @Column
+    private Long ownerRank;
+
+    @Column
     private String name;
 
     @Column
@@ -42,7 +45,8 @@ public class Whisky {
     private String savedName;
     @Column
     private String savedPath;
-
+    @Lob
+    private String ownerComment;
     @Column(length = 10,columnDefinition = "varchar(10) default 'UNKNOWN'")
     @Enumerated(EnumType.STRING)
     private FlavorType flavorType;
@@ -59,6 +63,9 @@ public class Whisky {
     private List<WhiskyCharacter> whiskyCharacterList;
     @PrePersist
     public void prePersist(){
+        ownerComment=ownerComment==null?"empty":ownerComment;
+        ownerRank= ownerRank==null?0L:ownerRank;
+        saleRank=saleRank==null?0L:saleRank;
         savedPath= savedPath==null ? "empty" : savedPath;
         savedName= savedName==null ? "empty" : savedName;
         oriImgName= oriImgName==null ? "empty" :oriImgName;
@@ -99,6 +106,7 @@ public class Whisky {
                 .ingredientType(ingredientType.toString())
                 .flavorType(flavorType.toString())
                 .savedPath(savedPath)
+                .saleRank(saleRank)
                 .build();
     }
 

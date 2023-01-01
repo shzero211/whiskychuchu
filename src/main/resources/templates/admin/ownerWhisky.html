@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/fragmentsAndLayout/default_layout}"><!--decorate 의 경로는 templates 다음 디렉토리 경로 부터 써줘야 한다-->
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        var array=[];//위스키 등수 객체 배열
+
+        //체크 버튼 클릭시 배열에 객체 추가,다시 누르면 제거
+        function clicked(id,name){
+            
+           if($('#comment_'+id).val()){
+            var val=array.findIndex((item)=>{return item.id===id});//해당 위스키가 이미 있는지 + 위치 확인
+            //alert(val);
+            //있는경우
+            if(val>=0){
+                delete array[val];
+                array = array.filter((element) => element !== undefined);
+                //alert(JSON.stringify(array));
+                show();
+                return false;
+            }else{
+            var obj={};
+            obj.id=id;
+            obj.name=name;
+            obj.ownerComment=$('#comment_'+id).val().replace(/(?:\r\n|\r|\n)/g, '<br />');
+            array.push(obj);
+            //alert(JSON.stringify(array));
+            show();//화면에 출력
+            }
+           }else{
+            alert("한줄평을 입력해 주세요!!");
+            $("#checkbox_"+id).prop("checked",false);
+            return false;
+           }
+            
+        }
+
+        //화면에 위스키 등수 출력
+        function show(){
+            $("#display").empty();
+            array.forEach((item,idx)=>{$("#display").append("<p>"+(idx+1)+"등 "+item.name+" </p>");}); 
+        }
+
+        function ownerWhiskyRankSend(){
+        	var token = $("meta[name='_csrf']").attr("content");
+		    var header = $("meta[name='_csrf_header']").attr("content");
+            $.ajax({
+                type: 'POST',
+                url: '/admin/ownerWhisky',
+                contentType: 'application/json',
+                data: JSON.stringify(array),
+                beforeSend : function(xhr)
+            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+            }
+            }).done(function(data, status, xhr){
+                location.href=xhr.getResponseHeader('Location');
+            }).fail(function(){
+                alert('전송 실패');
+            });
+        }
+    </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" id="content">
+    <div class="container my-5">
+        <div id="display">
+
+        </div>
+        <table id="example" class="table table-bordered" style="width: 100%">
+            <thead>
+            <tr><th>선택</th>
+                <th>이미지</th>
+                <th>이름</th>
+                <th>한줄평</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="whisky : ${whiskyList}">
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" th:id="|checkbox_${whisky.id}|" th:whiskyId="${whisky.id}" th:whiskyName="${whisky.name}" th:onclick="clicked(this.getAttribute('whiskyId'),this.getAttribute('whiskyName'))">
+                    </div>
+                </td>
+                <td ><img th:src="${whisky.savedPath}" class="rounded mt-2" id='thumbnail' alt="..." width="70" height="70"></td>
+                <td th:text="${whisky.name}">이름</td>
+                <td ><textarea th:id="|comment_${whisky.id}|" th:text="${whisky.ownerComment}" th:value="${whisky.ownerComment}" rows="3"></textarea></td>
+            </tr>
+            </tbody>
+        </table>
+        <button onclick="ownerWhiskyRankSend()">전송</button>
+    </div>
+</div>
+</html>
