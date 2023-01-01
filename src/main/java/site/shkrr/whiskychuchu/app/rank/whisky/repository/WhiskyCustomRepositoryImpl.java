@@ -5,8 +5,10 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminOwnerWhisky;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.WhiskyMainRankDto;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static site.shkrr.whiskychuchu.app.rank.whisky.entity.QWhisky.whisky;
@@ -14,6 +16,7 @@ import static site.shkrr.whiskychuchu.app.rank.whisky.entity.QWhisky.whisky;
 @RequiredArgsConstructor
 public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
     private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
     @Override
     public List<WhiskyMainRankDto> getWhiskyMainRankOrderBySaleRank(){
         return queryFactory.select(Projections.constructor(WhiskyMainRankDto.class,
@@ -23,7 +26,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                         whisky.name,
                         whisky.savedName,
                         whisky.flavorType.stringValue(),
-                        whisky.savedPath
+                        whisky.savedPath,
+                        whisky.ownerComment
                 ))
                 .from(whisky)
                 .where(whisky.saleRank.ne(0L))
@@ -41,11 +45,28 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.name,
                             whisky.savedName,
                             whisky.flavorType.stringValue(),
-                            whisky.savedPath
+                            whisky.savedPath,
+                            whisky.ownerComment
                     ))
                     .from(whisky)
                     .where(whisky.saleRank.ne(0L))
                     .orderBy(whisky.saleRank.asc())
+                    .fetch();
+        }
+        if(field.equals("ownerRank")){
+            return queryFactory.select(Projections.constructor(WhiskyMainRankDto.class,
+                            whisky.id,
+                            whisky.price,
+                            whisky.perPrice,
+                            whisky.name,
+                            whisky.savedName,
+                            whisky.flavorType.stringValue(),
+                            whisky.savedPath,
+                            whisky.ownerComment
+                    ))
+                    .from(whisky)
+                    .where(whisky.ownerRank.ne(0L))
+                    .orderBy(whisky.ownerRank.asc())
                     .fetch();
         }
         if(field.equals("perprice")){
@@ -56,7 +77,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.name,
                             whisky.savedName,
                             whisky.flavorType.stringValue(),
-                           whisky.savedPath
+                           whisky.savedPath,
+                           whisky.ownerComment
                     ))
                     .from(whisky)
                    .where(whisky.saleRank.ne(0L))
@@ -71,7 +93,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.name,
                             whisky.savedName,
                             whisky.flavorType.stringValue(),
-                            whisky.savedPath
+                            whisky.savedPath,
+                            whisky.ownerComment
                     ))
                     .from(whisky)
                     .where(whisky.flavorType.stringValue().eq("스모키"))
@@ -86,7 +109,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.name,
                             whisky.savedName,
                             whisky.flavorType.stringValue(),
-                            whisky.savedPath
+                            whisky.savedPath,
+                            whisky.ownerComment
                     ))
                     .from(whisky)
                     .where(whisky.flavorType.stringValue().eq("쉐리"))
@@ -101,7 +125,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
                             whisky.name,
                             whisky.savedName,
                             whisky.flavorType.stringValue(),
-                            whisky.savedPath
+                            whisky.savedPath,
+                            whisky.ownerComment
                     ))
                     .from(whisky)
                     .where(whisky.flavorType.stringValue().eq("버번"))
@@ -118,5 +143,32 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
     @Override
     public void resetAllSaleRank(){
        queryFactory.update(whisky).set(whisky.saleRank,0L).execute();
+       em.clear();
+    }
+
+    @Override
+    public List<AdminOwnerWhisky> getAdminOwnerWhisky() {
+        return queryFactory.select(Projections.constructor(AdminOwnerWhisky.class,
+                whisky.id,
+                whisky.savedPath,
+                whisky.name,
+                whisky.ownerComment
+        ))
+                .from(whisky)
+                .orderBy(whisky.saleRank.asc())
+                .fetch();
+
+    }
+
+    @Override
+    public void updateOwnerWhisky(Long id, Long ownerRank,String ownerComment) {
+        queryFactory.update(whisky).set(whisky.ownerRank,ownerRank).set(whisky.ownerComment,ownerComment).where(whisky.id.eq(id)).execute();
+        em.clear();
+    }
+
+    @Override
+    public void resetAllOwnerRank() {
+        queryFactory.update(whisky).set(whisky.ownerRank,0L).execute();
+        em.clear();
     }
 }
