@@ -8,12 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetailReq;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.*;
 import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.WhiskyMainRankDto;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
@@ -83,5 +79,19 @@ public class WhiskyService {
         Whisky whisky= whiskyRepository.findById(id).orElseThrow(()->new EntityNotFoundException("삭제할 위스키 상세정보가 없습니다."));
         whiskyImgService.deleteWhiskyImg(whisky);
         whiskyRepository.delete(whisky);
+    }
+
+    public List<AdminOwnerWhisky> getAdminOwnerWhisky() {
+        return whiskyRepository.getAdminOwnerWhisky();
+    }
+    @Transactional
+    public void updateOwnerWhisky(List<AdminOwnerWhiskyReq> list) {
+        whiskyRepository.resetAllOwnerRank();
+        for(int i=0;i<list.size();i++){
+            Long id=Long.parseLong(list.get(i).getId());
+            Long ownerRank=Long.parseLong(String.valueOf(i))+1;
+            String ownerComment=list.get(i).getOwnerComment();
+            whiskyRepository.updateOwnerWhisky(id,ownerRank,ownerComment);
+        }
     }
 }
