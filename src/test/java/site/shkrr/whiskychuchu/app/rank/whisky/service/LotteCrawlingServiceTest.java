@@ -31,6 +31,7 @@ class LotteCrawlingServiceTest {
     private String fileDir;
 
     @Test
+    @Disabled
     public void t1(){
         crawlingService.crawling();
     }

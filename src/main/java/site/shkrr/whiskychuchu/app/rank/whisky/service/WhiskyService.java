@@ -30,7 +30,7 @@ public class WhiskyService {
     * 없으면 저장 하는 메소드
     * */
     @Transactional
-    @Scheduled(cron = "0 18 17 * * 1")
+    @Scheduled(cron = "0 0 18 * * 1")
     public void crawlingAndSave() throws IOException {
         List<CrawledWhiskyData> crawledDatas=crawlingService.crawling();
         whiskyRepository.resetAllSaleRank();//모든 위스키 saleRank 0L 로 초기화

@@ -23,7 +23,7 @@ url:
 cloud:
   aws:
     s3:
-      bucket: ${bucket}/${active}
+      bucket: ${bucket}/${active}/
     credentials:
       access-key: ${accessKey}
       secret-key: ${secretKey}
