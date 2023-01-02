@@ -16,8 +16,10 @@ public class WhiskychuchuApplication {
 		String os=System.getProperty("os.name").toLowerCase();
 		if(os.contains("win")){
 			System.setProperty("webdriver.chrome.driver","/chromedriver_win32/chromedriver.exe");
+			System.setProperty("file.dir","C:/whisky/");
 		}else{
 			System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
+			System.setProperty("file.dir"," /home/ec2-user/app/step1/");
 		}
 	}
 	public static void main(String[] args) {
