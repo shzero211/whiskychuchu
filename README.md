@@ -44,7 +44,15 @@
 >   * 이전 입력되었던 한줄평은 유지됩니다.
 </div>
 </details>
-### 🥃 서버 API 및 프로젝트 배포 구조
+
+### 🥃  프로젝트 아키텍처
+![아키텍처](https://user-images.githubusercontent.com/40134318/211592493-da3b0c7a-1208-4e72-ab26-f111095ada44.png)
+
+### 🥃  CI/CD
+![image](https://user-images.githubusercontent.com/40134318/211595758-6d2dc326-c90e-4073-81a6-56cc18e898b5.png)
+
+### 🥃  API
+
 
 ### 🥃 접속 링크
 🔗 URL : <a href="http://www.whiskychuchu.shkrr.site/" target="_blank">접속하기</a>
