@@ -4,8 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import site.shkrr.whiskychuchu.app.global.util.jarfilepath.PathUtil;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Locale;
 
 @EnableScheduling
@@ -17,14 +23,14 @@ public class WhiskychuchuApplication {
 		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
 		String os=System.getProperty("os.name").toLowerCase();
 		if(os.contains("win")){
-			System.setProperty("webdriver.chrome.driver","C:\\Users\\KIM\\IdeaProjects\\whiskychuchu\\src\\main\\resources\\static\\chromedriver_win32\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", PathUtil.getResourcePath("static/chromedriver_win32/chromedriver.exe"));
             System.setProperty("file.dir","C:/whisky/");
-			log.info("윈도우드라이버 실행 path:"+System.getProperty("webdriver.chrome.driver"));
+			log.info( PathUtil.getResourcePath("static/chromedriver_win32/chromedriver.exe"));
 		}else{
 			//System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
-			System.setProperty("webdriver.chrome.driver","/chromedriver_linux64/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
+			System.setProperty("webdriver.chrome.driver","static/chromedriver_linux64/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
 			System.setProperty("file.dir","/usr/bin/dummy/");
-			log.info("리눅스 드라이버 실행 path:"+System.getProperty("webdriver.chrome.driver"));
+			log.info( PathUtil.getResourcePath("static/chromedriver_linux64/chromedriver"));
 		}
 	}
 	public static void main(String[] args) {
