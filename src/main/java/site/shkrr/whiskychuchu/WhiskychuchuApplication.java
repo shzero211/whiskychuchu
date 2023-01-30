@@ -26,12 +26,9 @@ public class WhiskychuchuApplication {
 		if(os.contains("win")){
 			System.setProperty("webdriver.chrome.driver", PathUtil.getResourcePath("static/chromedriver_win32/chromedriver.exe"));
             System.setProperty("file.dir","C:/whisky/");
-			log.info( PathUtil.getResourcePath("static/chromedriver_win32/chromedriver.exe"));
 		}else{
-			//System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
-			System.setProperty("webdriver.chrome.driver", PathUtil.getResourcePath("/static/chromedriver_linux64/chromedriver"));// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
-			System.setProperty("file.dir","/usr/bin/dummy/");
-			log.info( PathUtil.getResourcePath("/static/chromedriver_linux64/chromedriver"));
+			System.setProperty("webdriver.chrome.driver","chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
+			System.setProperty("file.dir","dummy");
 		}
 	}
 	public static void main(String[] args) {
