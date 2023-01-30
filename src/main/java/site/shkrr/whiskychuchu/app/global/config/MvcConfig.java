@@ -9,13 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 * */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-    @Value("${file.dir}")
-    private String fileDir;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/image/**")//예약어
-                .addResourceLocations("file:///"+fileDir+"/");//경로
-
         registry.addResourceHandler("/chromedriver_linux64/**")//예약어
                 .addResourceLocations("file:///"+"resources/static/chromedriver_linux64"+"/");//경로
     }
