@@ -1,20 +1,23 @@
 package site.shkrr.whiskychuchu.app.global.util.jarfilepath;
 
-import com.querydsl.core.util.FileUtils;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.util.ResourceUtils;
 import site.shkrr.whiskychuchu.WhiskychuchuApplication;
 
-import java.io.*;
+import java.io.FileNotFoundException;
 
 public class PathUtil {
-    static final ClassLoader loader = WhiskychuchuApplication.class.getClassLoader();
     public static String getResourcePath(String path) {
-        return loader.getResource(path).getPath();
+        try {
+            return ResourceUtils.getURL("classpath:"+path).getPath().toString();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static String getJarResourcePath(String path) {
-        return "jar:"+loader.getResource(path).getPath();
+        try {
+            return ResourceUtils.getURL("classpath:"+path).toString();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
