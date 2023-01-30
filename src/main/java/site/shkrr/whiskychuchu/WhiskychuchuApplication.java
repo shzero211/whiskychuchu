@@ -12,6 +12,7 @@ import site.shkrr.whiskychuchu.app.global.util.jarfilepath.PathUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.Locale;
 
 @EnableScheduling
@@ -28,7 +29,7 @@ public class WhiskychuchuApplication {
 			log.info( PathUtil.getResourcePath("static/chromedriver_win32/chromedriver.exe"));
 		}else{
 			//System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
-			System.setProperty("webdriver.chrome.driver","static/chromedriver_linux64/chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
+			System.setProperty("webdriver.chrome.driver", PathUtil.getResourcePath("static/chromedriver_linux64/chromedriver"));// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
 			System.setProperty("file.dir","/usr/bin/dummy/");
 			log.info( PathUtil.getResourcePath("static/chromedriver_linux64/chromedriver"));
 		}
