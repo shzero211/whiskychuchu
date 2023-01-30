@@ -14,4 +14,7 @@ public class PathUtil {
     public static String getResourcePath(String path) {
         return loader.getResource(path).getPath();
     }
+    public static String getJarResourcePath(String path) {
+        return "jar:"+loader.getResource(path).getPath();
+    }
 }
