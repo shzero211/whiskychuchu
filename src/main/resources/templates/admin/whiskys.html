@@ -42,6 +42,8 @@
                 <th>이름</th>
                 <th>나라</th>
                 <th>재료</th>
+                <th>맛 종류</th>
+                <th>이번주 판매량 등수</th>
             </tr>
             </thead>
             <tbody>
@@ -50,6 +52,8 @@
                 <td th:text="${whisky.name}">이름</td>
                 <td th:text="${whisky.countryType}">나라</td>
                 <td th:text="${whisky.ingredientType}">재료</td>
+                <td th:text="${whisky.flavorType}">맛 종류</td>
+                <td th:text="${whisky.saleRank}">판매량순</td>
                 <td>
                     <a class="btn btn-primary" th:href="@{|/admin/whisky/${whisky.id}|}">수정</a>
                     <a class="btn btn-danger" th:wid="${whisky.id}" onclick="whisky_delete(this.getAttribute('wid'))">삭제</a>

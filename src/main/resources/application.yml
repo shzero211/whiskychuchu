@@ -20,12 +20,10 @@ spring:
           batch_size: 100
 url:
   lotte:  https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=pc&collection_id=301&login=Y&u9=navigate&u8=LM90150163&mallId=4
-file:
-  dir:  C:\\whisky\\
 cloud:
   aws:
     s3:
-      bucket: ${bucket}/${active}
+      bucket: ${bucket}/${active}/
     credentials:
       access-key: ${accessKey}
       secret-key: ${secretKey}

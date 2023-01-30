@@ -15,5 +15,8 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/image/**")//예약어
                 .addResourceLocations("file:///"+fileDir+"/");//경로
+
+        registry.addResourceHandler("/chromedriver_linux64/**")//예약어
+                .addResourceLocations("file:///"+"resources/static/chromedriver_linux64"+"/");//경로
     }
 }

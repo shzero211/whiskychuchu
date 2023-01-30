@@ -29,17 +29,21 @@ public class AwsS3ResourceService {
     public void store(FileDetail fileDetail,Whisky whisky, MultipartFile multipartFile){
         //임시파일 경로 생성
         File dummyFile=new File(fileDir,fileDetail.getSavedName());
-
+        //S3 저장하기전 임시 파일을 생성해 줘야함
+        try {
+            multipartFile.transferTo(dummyFile);
+        } catch (Exception e) {
+            throw new RuntimeException("file 경로가 올바르지 않습니다.");
+        }
         //S3에 이미지 저장
         try {
-            //S3 저장하기전 임시 파일을 생성해 줘야함
-            multipartFile.transferTo(dummyFile);
             //저장
             amazonS3Client.putObject(new PutObjectRequest(bucket,fileDetail.getSavedName(), dummyFile)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (IOException e) {
-            throw new RuntimeException("file 경로가 올바르지 않습니다.");
-        }finally {
+        } catch (Exception e) {
+            throw new RuntimeException("bucket 경로가 올바르지 않습니다.");
+        }
+        finally {
             if(dummyFile.exists()){
                 dummyFile.delete();//임시 파일 삭제
             }

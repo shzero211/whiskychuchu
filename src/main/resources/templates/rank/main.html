@@ -21,7 +21,6 @@
 <th:block layout:fragment="script">
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
    <script th:inline="javascript">
-
         //맨 위로 가기 버튼 JS
         $(function() {
             $(window).scroll(function() {
@@ -49,9 +48,26 @@
             }).done(function(res){
                 $('#mainTable').replaceWith(res);   //replaceWith는 지정된 엘리먼트 포함하여 내용 바꿔치기함=>tag 자체를 변경
                 $('#sort_by').html($('#'+id).text()); //html은 지정된 엘리먼트 밑에 내용만 바꿔치기힘 이둘의 차이를 잘알아야함=>tag안 내용만 바꿈
+                if(field=='ownerRank'){//주인장 추천순 누를때
+                    $('.comment').css('display', 'block');//한줄평 보여주기
+                }else{
+                    $('.comment').css('display', 'none');//한줄평 가리기
+                }
             }).fail(function(){
                 alert('접근 실패');
             });
+        }
+
+        function search(name){
+            var reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+            name=name.replace(reg,'');
+            name=name.replace('750ML'||'750ml','');
+            name=name.replace('700ML'||'700ml','');
+            name=name.replace('500ML'||'500ml','');
+            name=name.replace('450ML'||'450ml','');
+            name=name.replace('200ML'||'200ml','');
+            name=name+"레시피"
+            window.open("https://www.youtube.com/results?search_query="+name);
         }
     </script>
 </th:block>
@@ -77,23 +93,23 @@
             <div class="col-lg-12">
                 <!--정렬 네비게이션-->
                 <ul class="nav custom-tab d-flex flex-row justify-content-center border text-white" id="myTab" role="tablist">
-                    <li class="nav-item ">
-                        <a class="nav-link" id="saleRank-tab" th:field="salerank" onclick="updateTable(this);return fasle;">마트 판매량순</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="saleRank-tab" th:field="salerank" onclick="updateTable(this);return fasle;" style="cursor:pointer">마트 판매량순</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="perPrice-tab" th:field="perprice" onclick="updateTable(this);return fasle;">가성비순</a>
+                        <a class="nav-link" id="perPrice-tab" th:field="perprice" onclick="updateTable(this);return fasle;" style="cursor:pointer">가성비순</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="recommand-tab" th:field="recommend" onclick="return fasle;">주인장 추천순(개발중)</a>
+                        <a class="nav-link" id="recommand-tab" th:field="ownerRank" onclick="updateTable(this);return fasle;" style="cursor:pointer">주인장 추천순</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="smoky-tab" th:field="smoky" onclick="updateTable(this);return fasle;">스모키(가성비)</a>
+                        <a class="nav-link" id="smoky-tab" th:field="smoky" onclick="updateTable(this);return fasle;" style="cursor:pointer">스모키(가성비)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="sherry-tab" th:field="sherry" onclick="updateTable(this);return fasle;">쉐리(가성비)</a>
+                        <a class="nav-link" id="sherry-tab" th:field="sherry" onclick="updateTable(this);return fasle;" style="cursor:pointer">쉐리(가성비)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="bourbon-tab" th:field="bourbon" onclick="updateTable(this);return fasle;">버번(가성비)</a>
+                        <a class="nav-link" id="bourbon-tab" th:field="bourbon" onclick="updateTable(this);return fasle;" style="cursor:pointer">버번(가성비)</a>
                     </li>
                 </ul>
                 <!--사이트 설명 toggle-->
@@ -171,33 +187,23 @@
                                                 <h3 th:text="${whisky.name}"></h3>
                                                 <div class="meta">
                                                     <div class="organizers">
-                                                        <p th:text="|가격 : ${whisky.price}|"></p>
+                                                        <p th:text="|가격 : ${#numbers.formatInteger(whisky.price,0,'COMMA')}|"></p>
                                                     </div>
                                                     <div class="categories">
-                                                        <p th:text="|100 ml 당 가격 : ${whisky.perPrice}|"></p>
+                                                        <p th:text="|100 ML 당 가격 : ${#numbers.formatInteger(whisky.perPrice,0,'COMMA')}|"></p>
                                                     </div>
                                                     <div class="categories">
-                                                        <p th:text="|맛 종류: ${whisky.flavorType}|"></p>
+                                                        <p th:if="${whisky.flavorType}!=UNKNOWN" th:text="|맛 종류: ${whisky.flavorType}|"></p>
                                                     </div>
-                                                </div>
-                                                <!--위스키 레시피 검색시 ML 제거 (나중에 백엔드로 구현 변경할수 있음)-->
-                                                <div th:if="${#strings.contains(whisky.name, '(700ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(700ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(750ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(750ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(500ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(500ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(450ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(450ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
-                                                </div>
-                                                <div th:if="${#strings.contains(whisky.name, '(200ML)')}">
-                                                    <a class="btn btn-primary" th:href="|https://www.youtube.com/results?search_query=${#strings.replace(whisky.name,'(200ML)','')}레시피|" target="_blank">위스키 레시피 검색</a>
+                                                    <div>
+                                                        <p class="comment" th:utext="|<strong>주인장 한줄평</strong><br/> ${whisky.ownerComment}|" style="display: none;"></p>
+                                                    </div>
                                                 </div>
                                             </div>
-
+                                            <div class="mt-5">
+                                                <!--위스키 레시피 검색시 ML 제거 (나중에 백엔드로 구현 변경할수 있음)-->
+                                                <button class="btn btn-primary" th:searchName="${whisky.name}" th:onclick="search(this.getAttribute('searchName'));">위스키 레시피 검색</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>

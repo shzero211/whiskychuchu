@@ -8,12 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetailReq;
+import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.*;
 import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhisky;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.AdminWhiskyDetail;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.CrawledWhiskyData;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.dto.WhiskyMainRankDto;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
@@ -34,9 +30,10 @@ public class WhiskyService {
     * 없으면 저장 하는 메소드
     * */
     @Transactional
-    @Scheduled(cron = "0 0 5 * * 0")
+    @Scheduled(cron = "0 0 4 * * 1")
     public void crawlingAndSave() throws IOException {
         List<CrawledWhiskyData> crawledDatas=crawlingService.crawling();
+        whiskyRepository.resetAllSaleRank();//모든 위스키 saleRank 0L 로 초기화
         for(CrawledWhiskyData crawledWhiskyData:crawledDatas){
             Whisky whisky =whiskyRepository.findByName(crawledWhiskyData.getWhiskyName()).orElse(null);
             if(whisky!=null){
@@ -51,7 +48,7 @@ public class WhiskyService {
 
     public List<AdminWhisky> getAdminWhiskyList() {
         List<AdminWhisky> adminWhiskyList=new ArrayList<>();
-        List<Whisky> allWhiskyList=whiskyRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        List<Whisky> allWhiskyList=whiskyRepository.findAll(Sort.by(Sort.Direction.ASC, "saleRank"));
         for(Whisky whisky:allWhiskyList){
             adminWhiskyList.add(whisky.toAdminWhisky());
         }
@@ -73,11 +70,6 @@ public class WhiskyService {
         }
     }
 
-
-    public List<WhiskyMainRankDto> getMainRankList(){
-        return whiskyRepository.getWhiskyMainRankOrderBySaleRank();
-    }
-
     public List<WhiskyMainRankDto> getMainRankListOrderBy(String field){
         return whiskyRepository.getWhiskyMainRankOrderBy(field);
     }
@@ -87,5 +79,19 @@ public class WhiskyService {
         Whisky whisky= whiskyRepository.findById(id).orElseThrow(()->new EntityNotFoundException("삭제할 위스키 상세정보가 없습니다."));
         whiskyImgService.deleteWhiskyImg(whisky);
         whiskyRepository.delete(whisky);
+    }
+
+    public List<AdminOwnerWhisky> getAdminOwnerWhisky() {
+        return whiskyRepository.getAdminOwnerWhisky();
+    }
+    @Transactional
+    public void updateOwnerWhisky(List<AdminOwnerWhiskyReq> list) {
+        whiskyRepository.resetAllOwnerRank();
+        for(int i=0;i<list.size();i++){
+            Long id=Long.parseLong(list.get(i).getId());
+            Long ownerRank=Long.parseLong(String.valueOf(i))+1;
+            String ownerComment=list.get(i).getOwnerComment();
+            whiskyRepository.updateOwnerWhisky(id,ownerRank,ownerComment);
+        }
     }
 }
