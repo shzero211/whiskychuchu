@@ -1,8 +1,8 @@
-package site.shkrr.whiskychuchu.app.global.util.file.dto;
+package site.shkrr.whiskychuchu.rank.service.dto;
 
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
-import site.shkrr.whiskychuchu.app.global.util.file.MultipartUtil;
+import site.shkrr.whiskychuchu.rank.common.util.file.MultipartUtil;
 /**
  *
  * MultipartFile 에서 S3파일처리에 필요한 정보를가져와 가공하는 클래스
