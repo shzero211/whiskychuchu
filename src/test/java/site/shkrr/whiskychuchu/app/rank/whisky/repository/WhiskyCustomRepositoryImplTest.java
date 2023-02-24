@@ -7,11 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
+import site.shkrr.whiskychuchu.rank.domain.whisky.Whisky;
+import site.shkrr.whiskychuchu.rank.domain.whisky.repository.WhiskyRepository;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Disabled

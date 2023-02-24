@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
-import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
-import site.shkrr.whiskychuchu.app.rank.whisky.service.CrawlingService;
+import site.shkrr.whiskychuchu.rank.domain.whisky.Whisky;
+import site.shkrr.whiskychuchu.rank.domain.whisky.repository.WhiskyRepository;
+import site.shkrr.whiskychuchu.rank.service.crawling.CrawlingService;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,6 +31,7 @@ class LotteCrawlingServiceTest {
     private String fileDir;
 
     @Test
+    @Disabled
     public void t1(){
         crawlingService.crawling();
     }
