@@ -4,14 +4,13 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
-import site.shkrr.whiskychuchu.app.rank.whisky.repository.WhiskyRepository;
+import site.shkrr.whiskychuchu.rank.domain.whisky.Whisky;
+import site.shkrr.whiskychuchu.rank.domain.whisky.repository.WhiskyRepository;
+import site.shkrr.whiskychuchu.rank.service.whisky.WhiskyImgService;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Disabled
@@ -19,7 +18,7 @@ class WhiskyImgServiceTest {
     @Autowired
     private WhiskyRepository whiskyRepository;
     @Autowired
-    private  WhiskyImgService whiskyImgService;
+    private WhiskyImgService whiskyImgService;
     @Test
     public void t1() throws IOException {
         Whisky whisky=whiskyRepository.save(Whisky.builder()
