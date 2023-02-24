@@ -3,17 +3,8 @@ package site.shkrr.whiskychuchu;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import site.shkrr.whiskychuchu.app.global.util.jarfilepath.PathUtil;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.util.Locale;
+import site.shkrr.whiskychuchu.rank.common.util.jarfilepath.PathUtil;
 
 @EnableScheduling
 @Slf4j
