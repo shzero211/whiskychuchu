@@ -16,9 +16,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
 logging:
   level:
     com:
       amazonaws:
         util:
-        EC2MetadataUtils: error
+          EC2MetadataUtils: error

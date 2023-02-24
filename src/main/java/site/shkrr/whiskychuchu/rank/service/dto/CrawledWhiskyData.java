@@ -1,10 +1,10 @@
-package site.shkrr.whiskychuchu.app.rank.whisky.entity.dto;
+package site.shkrr.whiskychuchu.rank.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.Whisky;
+import site.shkrr.whiskychuchu.rank.domain.whisky.Whisky;
 
 @Builder
 @Getter
