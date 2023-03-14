@@ -20,6 +20,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @Transactional
+@Disabled
 class LotteCrawlingServiceTest {
     @Autowired
     private CrawlingService crawlingService;

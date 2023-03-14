@@ -10,7 +10,8 @@ import site.shkrr.whiskychuchu.rank.controller.dto.WhiskyMainRankDto;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static site.shkrr.whiskychuchu.app.rank.whisky.entity.QWhisky.whisky;
+import static site.shkrr.whiskychuchu.rank.domain.whisky.QWhisky.whisky;
+
 @Repository
 @RequiredArgsConstructor
 public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {

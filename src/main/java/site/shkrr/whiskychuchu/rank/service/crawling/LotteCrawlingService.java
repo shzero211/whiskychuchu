@@ -26,6 +26,7 @@ public class LotteCrawlingService implements CrawlingService {
     //생성자로 webDriver 초기설정 + 위스키 정보들을 담을 whiskDatas 초기화
     public LotteCrawlingService(){
         ChromeOptions options=new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
         options.addArguments("--start-maximized");
         options.addArguments("--disable-popup-blocking");
         options.addArguments("headless");

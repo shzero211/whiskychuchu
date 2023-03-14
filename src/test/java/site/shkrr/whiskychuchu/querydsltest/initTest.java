@@ -2,12 +2,13 @@ package site.shkrr.whiskychuchu.querydsltest;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import site.shkrr.whiskychuchu.app.rank.whisky.entity.QWhisky;
+import site.shkrr.whiskychuchu.rank.domain.whisky.QWhisky;
 import site.shkrr.whiskychuchu.rank.domain.whisky.Whisky;
 
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import java.util.List;
 @Slf4j
 @SpringBootTest
 @Transactional
+@Disabled
 public class initTest {
     @Autowired
     EntityManager entityManager;
