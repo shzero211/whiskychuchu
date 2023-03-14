@@ -18,7 +18,6 @@ public class WhiskychuchuApplication {
 			System.setProperty("webdriver.chrome.driver", PathUtil.getResourcePath("static/chromedriver_win32/chromedriver.exe"));
             System.setProperty("file.dir","C:/whisky/");
 		}else{
-			System.setProperty("webdriver.chrome.driver","chromedriver");// 앞에 /없으면 실행 경로 부터 찾음 (중요),/있으면 절대경로로 찾음
 			System.setProperty("file.dir","dummy");
 		}
 	}
